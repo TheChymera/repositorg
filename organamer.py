@@ -104,6 +104,8 @@ def reposit(destination_root, source_root, digits=4, letters=1, prefix=None, par
 	old_names = source_files_list[source_files_list.index(lastfile_pair)+1:]
 	
 	if parent_prefix:
+		if destination_root[-1] == "/":
+			destination_root = destination_root[:-1]
 		prefix = os.path.basename(destination_root)
 	
 	new_names = []
