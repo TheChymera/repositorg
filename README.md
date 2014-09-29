@@ -33,7 +33,7 @@ organamer_reposit [-h] [-q] destination source
 
 Example:
 ```
-organamer_reposit /run/media/chymera/NIKON D5100/DCIM/ /home/chymera/pictures/cameras/nd5100/
+organamer_reposit "/home/chymera/pictures/cameras/nd5100/" "/run/media/chymera/NIKON D5100/DCIM/"
 ```
 
 ##Arguments
