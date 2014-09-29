@@ -77,7 +77,7 @@ def sha256_hashfile(file_path, blocks="all"):
 	
 	return hasher.hexdigest()
 
-def reposit_files(destination_root, source_root, digits=4, letters=1, prefix=None, parent_prefix=True, prompt=True):
+def reposit(destination_root, source_root, digits=4, letters=1, prefix=None, parent_prefix=True, prompt=True):
 	import os
 	import string
 	from shutil import copyfile
