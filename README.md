@@ -25,14 +25,15 @@ pip install [--user] -e /your/local/organamer/path
 ```
 
 ##Usage
-Run the script either as `organamer` (if installed globally), or as `./organamer.py` from the containing folder:
+Functions from the `organamer.py` module can be called via python `python -c 'import organamer; organamer.reposit_files()'`.
+Additionally we provide a more specific CLI script which you can run either as `organamer_reposit` (if installed globally), or as `./organamer_reposit.py` from the containing folder:
 ```
 organamer_reposit.py [-h] [-q] destination source
 ```
 
 Example:
 ```
-organamer /run/media/chymera/NIKON D5100/DCIM/ /home/chymera/pictures/cameras/nd5100/
+organamer_reposit /run/media/chymera/NIKON D5100/DCIM/ /home/chymera/pictures/cameras/nd5100/
 ```
 
 ##Arguments
