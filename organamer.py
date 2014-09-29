@@ -54,7 +54,6 @@ def pair_lastfile(destination_files, source_files):
 		break
     
     if lastfile_found:
-	print [lastfile,lastfile_pair]
 	return [lastfile,lastfile_pair]
     else:
 	print("No pair for the last file from "+str(destination_dir)+", namely "+str(lastfile)+" was found.")
@@ -78,8 +77,10 @@ def sha256_hashfile(file_path, blocks="all"):
 	
     return hasher.hexdigest()
 
-def reposit_files(destination_root, source_root, digits=4, letters=1, parent_prefix=True):
+def reposit_files(destination_root, source_root, digits=4, letters=1, prefix=None, parent_prefix=True, prompt=True):
     import os
+    import string
+    from shutil import copyfile
     
     destination_root = os.path.expanduser(destination_root)
     destination_files_list = []
@@ -96,23 +97,81 @@ def reposit_files(destination_root, source_root, digits=4, letters=1, parent_pre
     lastfile,lastfile_pair = pair_lastfile(destination_files_list, source_files_list)
     digits_start = int(os.path.splitext(lastfile)[0][-digits:])
     letters_start = os.path.splitext(lastfile)[0][-(digits+letters):-digits]
-    print digits_start, letters_start
+    letters_start_index = string.lowercase.index(letters_start)
     
     source_files_list = sorted(source_files_list)
-    rename_list = source_files_list[source_files_list.index(lastfile_pair):]
+    old_names = source_files_list[source_files_list.index(lastfile_pair)+1:]
     
+    if parent_prefix:
+	prefix = os.path.basename(destination_root)
+
     new_names = []
-    #~ for i in range(len(rename_list)):
-	#~ print rename_list[i]
-	
     digits_new = digits_start+1
     count=0
-    while digits_new < 10**digits - 1 and count <= len(rename_list):
+    
+    while digits_new <= 10**digits - 1 and count <= len(old_names)-1:
+	source_file_name, extension = os.path.splitext(old_names[count])
+	#make sure files with the same path but different extensions keep the same name:
+	if source_file_name == os.path.splitext(old_names[count-1])[0]:
+	    digits_new -= 1
+	if digits_new == 10**digits:
+	    digits_new = 0
+	    letters_start_index += 1
+	    letters_start = string.lowercase[letters_start_index]
+	#create formatting template of length `digits`:
 	formatting_string = "%0"+str(digits)+"d"
 	padded_digits = formatting_string % digits_new
-	new_names.append(os.path.join(source_root, "_"+letters_start+padded_digits))
+	new_name = os.path.join(destination_root, letters_start, prefix+"_"+letters_start+padded_digits+extension)
+	new_names.append(new_name)
 	count += 1
 	digits_new += 1
 	
-    print new_names
+    if len(old_names) != len(new_names):
+	raise RuntimeError("Lists of old and new filenames are not of the same length. Unsafe to continue")
+
+    if prompt:
+	for i in range(len(old_names)):
+	    print("Preparing to copy `"+str(old_names[i])+"` to `"+str(new_names[i])+"`.")
+	if not query_yes_no("Review the above operations list carefully and enter 'yes' to continue or 'no' to abort."):
+	    quit()
+    
+    for i in range(len(old_names)):
+	print("Copying `"+str(old_names[i])+"` to `"+str(new_names[i])+"`.")
+	copyfile(old_names[i], new_names[i])
+	print("Finished!")
 	
+def query_yes_no(question, default="no"):
+    """Ask a yes/no question via raw_input() and return their answer.
+
+    "question" is a string that is presented to the user.
+    "default" is the presumed answer if the user just hits <Enter>.
+        It must be "yes" (the default), "no" or None (meaning
+        an answer is required of the user).
+
+    The "answer" return value is one of "yes" or "no".
+    
+    Author: fmark (http://stackoverflow.com/users/103225/fmark)
+    """
+    import sys
+
+    valid = {"yes": True, "y": True, "ye": True,
+             "no": False, "n": False}
+    if default is None:
+        prompt = " [y/n] "
+    elif default == "yes":
+        prompt = " [Y/n] "
+    elif default == "no":
+        prompt = " [y/N] "
+    else:
+        raise ValueError("invalid default answer: '%s'" % default)
+
+    while True:
+        sys.stdout.write(question + prompt)
+        choice = raw_input().lower()
+        if default is not None and choice == '':
+            return valid[default]
+        elif choice in valid:
+            return valid[choice]
+        else:
+            sys.stdout.write("Please respond with 'yes' or 'no' "
+                             "(or 'y' or 'n').\n")
