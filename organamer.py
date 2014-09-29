@@ -128,6 +128,10 @@ def reposit_files(destination_root, source_root, digits=4, letters=1, prefix=Non
 	
     if len(old_names) != len(new_names):
 	raise RuntimeError("Lists of old and new filenames are not of the same length. Unsafe to continue")
+	
+    if len(old_names) == 0:
+	print("No files found to reposit. Aborting.")
+	quit()
 
     if prompt:
 	for i in range(len(old_names)):
