@@ -13,6 +13,6 @@ setup(
 	classifiers = [],
 	install_requires=[],
 	entry_points = {'console_scripts' : \
-			['organamer_reposit = organamer_reposit:main']
+			['organamer_reposit = organamer_cli:reposit_cli']
 		}
     )
