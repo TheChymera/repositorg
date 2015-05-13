@@ -37,13 +37,13 @@ def rename(root_dir, strip_string="", append_string="", prepend_string="", condi
 def pair_lastfile(destination_files, source_files):
 	import os
 	lastfile_found = False
-	
+
 	destination_files = sorted(destination_files)
 	source_files = sorted(source_files, reverse=True)
 	lastfile = destination_files[-1]
 	lastfile_shorthash = sha256_hashfile(lastfile, blocks=1)
 	lastfile_longhash = sha256_hashfile(lastfile)
-	
+
 	for source_file in source_files:
 		file_shorthash = sha256_hashfile(source_file, blocks=1)
 		if file_shorthash == lastfile_shorthash:
@@ -75,19 +75,34 @@ def sha256_hashfile(file_path, blocks="all"):
 		hasher.update(buf)
 		buf = afile.read(blocksize)
 		block_count += 1
-	
+
 	return hasher.hexdigest()
 
-def reposit(destination_root, source_root, digits=4, letters=1, prefix=None, parent_prefix=True, prompt=True):
+def reposit(destination_root, source_root, digits=4, letters=1, prefix=None, parent_prefix=True, prompt=True, user_password=None):
 	import os
 	import string
 	from shutil import copyfile
-	
+
 	destination_root = os.path.expanduser(destination_root)
 	destination_files_list = []
 	for root, dirs, files in os.walk(destination_root):
 		for name in files:
 			destination_files_list.append(os.path.join(root, name))
+
+	#BEGIN copatibility for smb (samba share) download:
+	if source_root[0:6] == "smb://":
+		if not user_password:
+			raise RuntimeError("Please specify a user and login for the SAMBA share. The proper format is username%password")
+		from subprocess import call
+		import time
+		from os import makedirs, path
+
+		tmpdir = "/tmp/organamer-"+time.strftime("%Y%m%d_%H%M%S")
+
+		_,_,ip,share,files_path = source_root.split("/", 4)
+		call(["smbclient", "//"+ip+"/"+share, "-c", "'lcd "+tmpdir+"; cd"+files_path+"; prompt; mget *'", "-U "+user_password])
+		source_root = tmpdir
+	#END smb capability
 
 	source_root = os.path.expanduser(source_root)
 	source_files_list = []
@@ -99,15 +114,15 @@ def reposit(destination_root, source_root, digits=4, letters=1, prefix=None, par
 	digits_start = int(os.path.splitext(lastfile)[0][-digits:])
 	letters_start = os.path.splitext(lastfile)[0][-(digits+letters):-digits]
 	letters_start_index = string.lowercase.index(letters_start)
-	
+
 	source_files_list = sorted(source_files_list)
 	old_names = source_files_list[source_files_list.index(lastfile_pair)+1:]
-	
+
 	if parent_prefix:
 		if destination_root[-1] == "/":
 			destination_root = destination_root[:-1]
 		prefix = os.path.basename(destination_root)
-	
+
 	new_names = []
 	digits_new = digits_start+1
 	count=0
@@ -128,10 +143,10 @@ def reposit(destination_root, source_root, digits=4, letters=1, prefix=None, par
 		new_names.append(new_name)
 		count += 1
 		digits_new += 1
-	
+
 	if len(old_names) != len(new_names):
 		raise RuntimeError("Lists of old and new filenames are not of the same length. Unsafe to continue")
-	
+
 	if len(old_names) == 0:
 		print("No files found to reposit. Aborting.")
 		quit()
@@ -146,21 +161,21 @@ def reposit(destination_root, source_root, digits=4, letters=1, prefix=None, par
 		print("Copying `"+str(old_names[i])+"` to `"+str(new_names[i])+"`.")
 		copyfile(old_names[i], new_names[i])
 		print("Finished!")
-	
+
 def query_yes_no(question, default="no"):
 	"""Ask a yes/no question via raw_input() and return their answer.
-	
+
 	"question" is a string that is presented to the user.
 	"default" is the presumed answer if the user just hits <Enter>.
 		It must be "yes" (the default), "no" or None (meaning
 		an answer is required of the user).
-	
+
 	The "answer" return value is one of "yes" or "no".
-	
+
 	Author: fmark (http://stackoverflow.com/users/103225/fmark)
 	"""
 	import sys
-	
+
 	valid = {"yes": True, "y": True, "ye": True,
 			 "no": False, "n": False}
 	if default is None:
@@ -171,7 +186,7 @@ def query_yes_no(question, default="no"):
 		prompt = " [y/N] "
 	else:
 		raise ValueError("invalid default answer: '%s'" % default)
-	
+
 	while True:
 		sys.stdout.write(question + prompt)
 		choice = raw_input().lower()
@@ -182,4 +197,3 @@ def query_yes_no(question, default="no"):
 		else:
 			sys.stdout.write("Please respond with 'yes' or 'no' "
 							 "(or 'y' or 'n').\n")
-	
