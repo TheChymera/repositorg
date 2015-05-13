@@ -12,7 +12,7 @@ setup(
 	package_dir = {"":"src"},
 	classifiers = [],
 	install_requires = [],
-	provides = ["organamer_cli"]
+	provides = ["organamer_cli"],
 	entry_points = {'console_scripts' : \
 			['organamer_reposit = organamer_cli:reposit_cli']
 		}
