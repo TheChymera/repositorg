@@ -3,7 +3,7 @@ __author__ = 'Horea Christian'
 import argparse
 import base
 
-def reposit_cli():
+def reposit():
 	parser = argparse.ArgumentParser()
 	parser.add_argument("destination", help="Path to store files into (excluding alphanumeric storage directories)", type=str)
 	parser.add_argument("source", help="Path to reposit files from (all subdirectories will be crawled!)", type=str)
