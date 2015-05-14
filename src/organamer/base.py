@@ -92,14 +92,15 @@ def sha256_hashfile(file_path, blocks="all"):
 
 	return hasher.hexdigest()
 
-def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prompt=True, user_password=None, smb_extension=""):
+def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prompt=True, user_password=None, smb_extension="", exclude=["Thumbs.db"]):
 	import string
 
 	destination_root = os.path.expanduser(destination_root)
 	destination_files_list = []
 	for root, dirs, files in os.walk(destination_root):
 		for name in files:
-			destination_files_list.append(os.path.join(root, name))
+			if name not in exclude:
+				destination_files_list.append(os.path.join(root, name))
 
 	#BEGIN copatibility for smb (samba share) download:
 	if source_root[0:6] == "smb://":
