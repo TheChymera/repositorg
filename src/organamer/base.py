@@ -45,7 +45,7 @@ def reformat(root_directory, digits=4, letters=1, prefix=None, parent_prefix=Tru
 	original_files_list = sorted(original_files_list)
 	new_files_list = iterative_rename(0, original_files_list, root_directory, prefix="pcr_")
 	prompt_and_copy(original_files_list, new_files_list,
-					"The original file locations above will be DELETED after copying.\nReview the above operations list carefully and enter 'yes' to continue or 'no' to abort."
+					"\nThe original file locations above will be DELETED after copying.\nReview the above operations list carefully and enter 'yes' to continue or 'no' to abort."
 					)
 	for original_name in original_files_list:
 		os.remove(original_name)
