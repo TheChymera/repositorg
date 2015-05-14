@@ -232,6 +232,3 @@ def query_yes_no(prompt_message, default="no"):
 		else:
 			sys.stdout.write("Please respond with 'yes' or 'no' "
 							 "(or 'y' or 'n').\n")
-
-if __name__ == "__main__":
-	reformat_names("~/testdata/gt.ep/gel_electrophoresis/")
