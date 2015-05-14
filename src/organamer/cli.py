@@ -10,7 +10,7 @@ def reposit():
 	parser.add_argument("-l", "--letters", help="Prepend the specified number of letters to theincremental nummeration (default is 1).", type=int)
 	parser.add_argument("-e", "--extension", help="Filter by this extension (currently works for SAMBA share download ONLY).", type=str)
 	parser.add_argument("-p", "--prefix", help="Add this prefix to all files.", type=str)
-	parser.add_argument("-a", "--parent-prefix", help="Add the name of the rot dir as a prefix to all files (defult FALSE).", type="store_true")
+	parser.add_argument("-a", "--parent-prefix", help="Add the name of the rot dir as a prefix to all files (defult FALSE).", action="store_true")
 	parser.add_argument("-u", "--user-password", help="User and password for your remote file source (format: `user%password`)", type=str)
 	parser.add_argument("-q", "--quiet", help="Do not ask for confirmation - DANGEROUS!", action="store_false")
 	args = parser.parse_args()
