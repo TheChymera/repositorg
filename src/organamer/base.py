@@ -35,7 +35,7 @@ def rename(root_dir, strip_string="", append_string="", prepend_string="", condi
 	else:
 		return [old_filenames, new_filenames]
 
-def reformat_names(root_directory, digits=4, letters=1, prefix=None, parent_prefix=True, prompt=True, exclude=["Thumbs.db"]):
+def reformat(root_directory, digits=4, letters=1, prefix=None, parent_prefix=True, prompt=True, exclude=["Thumbs.db"]):
 	root_directory = os.path.expanduser(root_directory)
 	original_files_list = []
 	for root, dirs, files in os.walk(root_directory):

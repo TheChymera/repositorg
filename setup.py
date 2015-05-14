@@ -14,6 +14,7 @@ setup(
 	install_requires = [],
 	provides = ["organamer"],
 	entry_points = {'console_scripts' : \
-			['organamer_reposit = organamer.cli:reposit']
+			['organamer_reposit = organamer.cli:reposit',
+			'organamer_reformat = organamer.cli:reformat']
 		}
     )
