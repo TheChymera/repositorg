@@ -92,7 +92,7 @@ def sha256_hashfile(file_path, blocks="all"):
 
 	return hasher.hexdigest()
 
-def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prompt=True, user_password=None, smb_extension="", exclude=["Thumbs.db"]):
+def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prefix="", prompt=True, user_password=None, smb_extension="", exclude=["Thumbs.db"]):
 	import string
 
 	destination_root = os.path.expanduser(destination_root)
@@ -113,7 +113,7 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 		os.makedirs(tmpdir)
 
 		_,_,ip,share,files_path = source_root.split("/", 4)
-		lcd_part = "lcd "+tmpdir+"; cd "+files_path+"; prompt; mget *."+smb_extension
+		lcd_part = "lcd "+tmpdir+"; cd "+files_path+"; prompt; mget *"+smb_extension
 		print lcd_part
 		print list2cmdline(["smbclient", "//"+ip+"/"+share, "-U", user_password, "-c", lcd_part])
 		call(["smbclient", "//"+ip+"/"+share, "-U", user_password, "-c", lcd_part])
@@ -133,8 +133,11 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 	else:
 		lastfile,lastfile_pair = pair_lastfile(destination_files_list, source_files_list)
 		digits_start = int(os.path.splitext(lastfile)[0][-digits:])
-		letters_start = os.path.splitext(lastfile)[0][-(digits+letters):-digits]
-		letters_start_index = string.lowercase.index(letters_start)
+		if letters >= 1:
+			letters_start = os.path.splitext(lastfile)[0][-(digits+letters):-digits]
+			letters_start_index = string.lowercase.index(letters_start)
+		else:
+			letters_start_index=None
 
 		old_names = source_files_list[source_files_list.index(lastfile_pair)+1:]
 		if len(old_names) == 0:
@@ -233,3 +236,6 @@ def query_yes_no(prompt_message, default="no"):
 		else:
 			sys.stdout.write("Please respond with 'yes' or 'no' "
 							 "(or 'y' or 'n').\n")
+
+if __name__ == "__main__":
+	reposit("~/testdata/gt.ep/gel_electrophoresis/", "smb://192.168.65.219/Pryce_Labor/Christian/transit", user_password="chorea%chr.hor1", letters=0, smb_extension="jpg", parent_prefix=False, prefix="pcr_")
