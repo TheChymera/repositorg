@@ -35,7 +35,20 @@ def rename(root_dir, strip_string="", append_string="", prepend_string="", condi
 	else:
 		return [old_filenames, new_filenames]
 
-def reformat_names(root_directory, digits=4, letters=1, prefix=None, parent_prefix=True, prompt=True, user_password=None, estension=None)
+def reformat_names(root_directory, digits=4, letters=1, prefix=None, parent_prefix=True, prompt=True, exclude=["Thumbs.db"]):
+	root_directory = os.path.expanduser(root_directory)
+	original_files_list = []
+	for root, dirs, files in os.walk(root_directory):
+		for name in files:
+			if name not in exclude:
+				original_files_list.append(os.path.join(root, name))
+	original_files_list = sorted(original_files_list)
+	new_files_list = iterative_rename(0, original_files_list, root_directory, prefix="pcr_")
+	prompt_and_copy(original_files_list, new_files_list,
+					"The original file locations above will be DELETED after copying.\nReview the above operations list carefully and enter 'yes' to continue or 'no' to abort."
+					)
+	for original_name in original_files_list:
+		os.remove(original_name)
 
 def pair_lastfile(destination_files, source_files):
 	lastfile_found = False
@@ -219,3 +232,6 @@ def query_yes_no(prompt_message, default="no"):
 		else:
 			sys.stdout.write("Please respond with 'yes' or 'no' "
 							 "(or 'y' or 'n').\n")
+
+if __name__ == "__main__":
+	reformat_names("~/testdata/gt.ep/gel_electrophoresis/")
