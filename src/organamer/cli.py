@@ -13,7 +13,7 @@ def reposit():
 
 	base.reposit(destination_root=args.destination, source_root=args.source, prompt=args.quiet, user_password=args.user_password)
 
-def reformat()
+def reformat():
 	parser = argparse.ArgumentParser()
 	parser.add_argument("directory", help="The directory containing the files that need reformatting.", type=str)
 	parser.add_argument("-q", "--quiet", help="Do not ask for confirmation - DANGEROUS!", action="store_false")
