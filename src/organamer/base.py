@@ -236,6 +236,3 @@ def query_yes_no(prompt_message, default="no"):
 		else:
 			sys.stdout.write("Please respond with 'yes' or 'no' "
 							 "(or 'y' or 'n').\n")
-
-if __name__ == "__main__":
-	reposit("~/testdata/gt.ep/gel_electrophoresis/", "smb://192.168.65.219/Pryce_Labor/Christian/transit", user_password="chorea%chr.hor1", letters=0, smb_extension="jpg", parent_prefix=False, prefix="pcr_")
