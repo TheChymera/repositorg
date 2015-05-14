@@ -35,6 +35,8 @@ def rename(root_dir, strip_string="", append_string="", prepend_string="", condi
 	else:
 		return [old_filenames, new_filenames]
 
+def reformat_names(root_directory, digits=4, letters=1, prefix=None, parent_prefix=True, prompt=True, user_password=None, estension=None)
+
 def pair_lastfile(destination_files, source_files):
 	lastfile_found = False
 
@@ -77,7 +79,7 @@ def sha256_hashfile(file_path, blocks="all"):
 
 	return hasher.hexdigest()
 
-def reposit(destination_root, source_root, digits=4, letters=1, prefix=None, parent_prefix=True, prompt=True, user_password=None, estension=None):
+def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prompt=True, user_password=None, smb_extension=""):
 	import string
 
 	destination_root = os.path.expanduser(destination_root)
@@ -97,7 +99,7 @@ def reposit(destination_root, source_root, digits=4, letters=1, prefix=None, par
 		os.makedirs(tmpdir)
 
 		_,_,ip,share,files_path = source_root.split("/", 4)
-		lcd_part = "lcd "+tmpdir+"; cd "+files_path+"; prompt; mget *"
+		lcd_part = "lcd "+tmpdir+"; cd "+files_path+"; prompt; mget *."+smb_extension
 		print lcd_part
 		print list2cmdline(["smbclient", "//"+ip+"/"+share, "-U", user_password, "-c", lcd_part])
 		call(["smbclient", "//"+ip+"/"+share, "-U", user_password, "-c", lcd_part])
