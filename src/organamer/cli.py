@@ -27,4 +27,4 @@ def reformat():
 	parser.add_argument("-p", "--prefix", help="Add this prefix to all files.", type=str)
 	args = parser.parse_args()
 
-	base.reformat(root_directory=args.directory, prompt=args.quiet, digits=args.digits, letters=args.letters_start_index, prefix=args.prefix)
+	base.reformat(root_directory=args.directory, prompt=args.quiet, digits=args.digits, letters_start_index=args.letters_start_index, prefix=args.prefix)
