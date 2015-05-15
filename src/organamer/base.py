@@ -99,8 +99,9 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 	destination_files_list = []
 	for root, dirs, files in os.walk(destination_root):
 		for name in files:
-			if name not in exclude and name[-len(smb_extension)] == smb_extension:
+			if name not in exclude:
 				destination_files_list.append(os.path.join(root, name))
+	destination_files_list = sorted(destination_files_list)
 
 	#BEGIN copatibility for smb (samba share) download:
 	if source_root[0:6] == "smb://":
@@ -114,8 +115,6 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 
 		_,_,ip,share,files_path = source_root.split("/", 4)
 		lcd_part = "lcd "+tmpdir+"; cd "+files_path+"; prompt; mget *"+smb_extension
-		print lcd_part
-		print list2cmdline(["smbclient", "//"+ip+"/"+share, "-U", user_password, "-c", lcd_part])
 		call(["smbclient", "//"+ip+"/"+share, "-U", user_password, "-c", lcd_part])
 		source_root = tmpdir
 	#END smb capability
@@ -165,7 +164,8 @@ def iterative_rename(digits_start, old_names, destination_root="/tmp", letters_s
 	while digits_start <= 10**digits - 1 and count <= len(old_names)-1:
 		source_file_name, extension = os.path.splitext(old_names[count])
 		#make sure files with the same path but different extensions keep the same name:
-		if source_file_name == os.path.splitext(old_names[count-1])[0]:
+		#for lists of length 1, the last element is the nly element, thus we require the list to be of length 2 at least
+		if source_file_name == os.path.splitext(old_names[count-1])[0] and len(old_names) >= 2:
 			digits_start -= 1
 		if digits_start == 10**digits:
 			digits_start = 0
