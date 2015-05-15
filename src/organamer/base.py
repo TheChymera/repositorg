@@ -141,7 +141,7 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 
 		old_names = source_files_list[source_files_list.index(lastfile_pair)+1:]
 		if len(old_names) == 0:
-			print("No files found to reposit. Aborting.")
+			print("No files found to reposit. Exiting.")
 			quit()
 
 		if parent_prefix:
