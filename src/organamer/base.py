@@ -99,7 +99,7 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 	destination_files_list = []
 	for root, dirs, files in os.walk(destination_root):
 		for name in files:
-			if name not in exclude:
+			if name not in exclude and name[-len(smb_extension)] == smb_extension:
 				destination_files_list.append(os.path.join(root, name))
 
 	#BEGIN copatibility for smb (samba share) download:
