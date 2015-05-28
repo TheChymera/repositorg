@@ -105,8 +105,6 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 		for name in files:
 			if name not in exclude:
 				if smb_extension:
-					print os.path.splitext(name)[1]
-					print smb_extension
 					if os.path.splitext(name)[1] == smb_extension:
 						destination_files_list.append(os.path.join(root, name))
 				else:
