@@ -51,7 +51,7 @@ def reformat(root_directory, digits=4, letters_start_index=None, prefix=None, pr
 		os.remove(original_name)
 
 def pair_lastfile(destination_files, source_files):
-	lastfile_found = False
+	lastfile_pair = None
 
 	destination_files = sorted(destination_files)
 	source_files = sorted(source_files, reverse=True)
@@ -68,11 +68,12 @@ def pair_lastfile(destination_files, source_files):
 				lastfile_found = True
 				break
 
-	if lastfile_found:
-		return [lastfile,lastfile_pair]
+	if lastfile_pair:
+		return [lastfile, lastfile_pair]
 	else:
 		destination_dir = os.path.basename(destination_files[0])
 		print("No pair for the last file from "+str(destination_dir)+", namely "+str(lastfile)+" was found.")
+		return [lastfile, lastfile_pair]
 
 def sha256_hashfile(file_path, blocks="all"):
 	import hashlib
@@ -146,7 +147,11 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 		else:
 			letters_start_index=None
 
-		old_names = source_files_list[source_files_list.index(lastfile_pair)+1:]
+		if lastfile_pair:
+			old_names = source_files_list[source_files_list.index(lastfile_pair)+1:]
+		else:
+			old_names == source_files_list
+
 		if len(old_names) == 0:
 			print("No files found to reposit. Exiting.")
 			quit()
