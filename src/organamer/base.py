@@ -165,7 +165,7 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 
 		# don't start numbering at the last digit, otherwise you would overwrite the file
 		digits_start += 1
-		new_names = iterative_rename(digits_start, old_names, destination_root, letters_start_index, prefix=prefix)
+		new_names = iterative_rename(digits_start, old_names, destination_root, letters_start_index, prefix=prefix, digits=digits)
 
 	if len(old_names) != len(new_names):
 		raise RuntimeError("Lists of old and new filenames are not of the same length. Unsafe to continue")
