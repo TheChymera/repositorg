@@ -133,7 +133,8 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 	source_files_list = []
 	for root, dirs, files in os.walk(source_root):
 		for name in files:
-			source_files_list.append(os.path.join(root, name))
+			if os.path.splitext(name) not smb_extension:
+				source_files_list.append(os.path.join(root, name))
 	source_files_list = sorted(source_files_list)
 
 	if len(destination_files_list) == 0:
