@@ -76,7 +76,7 @@ optional arguments:
 ```
 
 
-####organamer_reposit
+####organamer_reformat
 ```
 usage: organamer_reformat [-h] [-q] [-i LETTERS_START_INDEX] [-d DIGITS]
                           [-p PREFIX]
