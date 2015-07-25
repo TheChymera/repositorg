@@ -138,7 +138,7 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 		old_names = source_files_list
 		new_names=iterative_rename(0, old_names, destination_root)
 	else:
-		lastfile,lastfile_pair = pair_lastfile(destination_files_list, source_files_list)
+		lastfile, lastfile_pair = pair_lastfile(destination_files_list, source_files_list)
 		digits_start = int(os.path.splitext(lastfile)[0][-digits:])
 		if letters >= 1:
 			letters_start = os.path.splitext(lastfile)[0][-(digits+letters):-digits]
