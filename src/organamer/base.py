@@ -93,12 +93,13 @@ def sha256_hashfile(file_path, blocks="all"):
 
 	return hasher.hexdigest()
 
-def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prefix="", prompt=True, user_password=None, smb_extension="", exclude=["Thumbs.db"]):
+def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prefix="", prompt=True, user_password=None, smb_extension=None, exclude=["Thumbs.db"]):
 	import string
 
 	#check if the extension is formatted correctly (leading period, as seen with `os.path.splitext()`)
-	if smb_extension[0] != ".":
-		smb_extension = "."+smb_extension
+	if smb_extension:
+		if smb_extension[0] != ".":
+			smb_extension = "."+smb_extension
 
 	destination_root = os.path.expanduser(destination_root)
 	destination_files_list = []
