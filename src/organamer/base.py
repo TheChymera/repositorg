@@ -238,8 +238,8 @@ def prompt_and_copy(files_from, files_to, prompt_message="Copy? [yes/no]", promp
 
 	for i in range(len(files_from)):
 		print("Copying `"+str(files_from[i])+"` to `"+str(files_to[i])+"`.")
-		if not os.path.exists(os.path.dirname(files_to[i]):
-			os.makedirs(os.path.dirname(files_to[i])
+		if not os.path.exists(os.path.dirname(files_to[i])):
+			os.makedirs(os.path.dirname(files_to[i]))
 		copyfile(files_from[i], files_to[i])
 		print("Finished!")
 
