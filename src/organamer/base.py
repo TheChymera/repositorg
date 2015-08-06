@@ -140,7 +140,7 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 
 	if len(destination_files_list) == 0:
 		old_names = source_files_list
-		new_names = iterative_rename(0, old_names, destination_root)
+		digits_start = 0
 	else:
 		lastfile, lastfile_pair = pair_lastfile(destination_files_list, source_files_list)
 		digits_start = int(os.path.splitext(lastfile)[0][-digits:])
@@ -167,7 +167,8 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 
 		# don't start numbering at the last digit, otherwise you would overwrite the file
 		digits_start += 1
-		new_names = iterative_rename(digits_start, old_names, destination_root, letters_start_index, prefix=prefix, digits=digits)
+
+	new_names = iterative_rename(digits_start, old_names, destination_root, letters_start_index, prefix=prefix, digits=digits)
 
 	if len(old_names) != len(new_names):
 		raise RuntimeError("Lists of old and new filenames are not of the same length. Unsafe to continue")
