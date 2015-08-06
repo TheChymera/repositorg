@@ -2,6 +2,7 @@
 from __future__ import division
 __author__ = 'Horea Christian'
 import os
+import string
 
 def rename(root_dir, strip_string="", append_string="", prepend_string="", conditional=True, execute=False):
 	root_dir = os.path.expanduser(root_dir)
@@ -96,11 +97,22 @@ def sha256_hashfile(file_path, blocks="all"):
 def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prefix="", prompt=True, user_password=None, extension=None, exclude=["Thumbs.db"]):
 	"""Organamer's core repositing function
 
-	Notes:
-		Currently breaks for letters > 1 because the string.lowercase.index() function only takes one argument.
-	"""
+	Arguments
+	---------
+	destination_root : string
+		Reposit the files from this directory.
+	source_root : string
+		Reposit the files to this directory.
+	digits : int
+		number of digits in file names
+	letters : int
+		number of letters to prepend to the digits in the file names
+	parent_prefix :
 
-	import string
+	Notes
+	-----
+	Currently breaks for letters > 1 because the string.lowercase.index() function only takes one argument.
+	"""
 
 	#check if extension is at all specified
 	if extension:
@@ -146,8 +158,6 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 			else:
 				source_files_list.append(os.path.join(root, name))
 	source_files_list = sorted(source_files_list)
-
-	print source_files_list
 
 	if len(destination_files_list) == 0:
 		old_names = source_files_list
@@ -198,10 +208,11 @@ def iterative_rename(digits_start, old_names, destination_root="/tmp", letters_s
 			digits_start -= 1
 		if digits_start == 10**digits:
 			digits_start = 0
-			if letters_start_index:
+			if letters_start_index or letters_start_index == 0:
 				letters_start_index += 1
-				letters_start = string.lowercase[letters_start_index]
-		if not letters_start_index:
+		if letters_start_index or letters_start_index == 0:
+			letters_start = string.lowercase[letters_start_index]
+		else:
 			letters_start=""
 		#create formatting template of length `digits`:
 		formatting_string = "%0"+str(digits)+"d"
