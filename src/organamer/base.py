@@ -93,7 +93,7 @@ def sha256_hashfile(file_path, blocks="all"):
 
 	return hasher.hexdigest()
 
-def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prefix="", prompt=True, user_password=None, smb_extension=None, exclude=["Thumbs.db"]):
+def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prefix="", prompt=True, user_password=None, extension=None, exclude=["Thumbs.db"]):
 	"""Organamer's core repositing function
 
 	Notes:
@@ -102,19 +102,19 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 
 	import string
 
-	#check if smb_extension is at all specified
-	if smb_extension:
+	#check if extension is at all specified
+	if extension:
 	#check if the extension is formated correctly (leading period, as seen with `os.path.splitext()`)
-		if smb_extension[0] != ".":
-			smb_extension = "."+smb_extension
+		if extension[0] != ".":
+			extension = "."+extension
 
 	destination_root = os.path.expanduser(destination_root)
 	destination_files_list = []
 	for root, dirs, files in os.walk(destination_root):
 		for name in files:
 			if name not in exclude:
-				if smb_extension:
-					if os.path.splitext(name)[1] == smb_extension:
+				if extension:
+					if os.path.splitext(name)[1] == extension:
 						destination_files_list.append(os.path.join(root, name))
 				else:
 					destination_files_list.append(os.path.join(root, name))
@@ -131,7 +131,7 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 		os.makedirs(tmpdir)
 
 		_,_,ip,share,files_path = source_root.split("/", 4)
-		lcd_part = "lcd "+tmpdir+"; cd "+files_path+"; prompt; mget *"+smb_extension
+		lcd_part = "lcd "+tmpdir+"; cd "+files_path+"; prompt; mget *"+extension
 		call(["smbclient", "//"+ip+"/"+share, "-U", user_password, "-c", lcd_part])
 		source_root = tmpdir
 	#END smb capability
@@ -140,9 +140,14 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 	source_files_list = []
 	for root, dirs, files in os.walk(source_root):
 		for name in files:
-			if os.path.splitext(name)[1] == smb_extension:
+			if extension:
+				if os.path.splitext(name)[1] == extension:
+					source_files_list.append(os.path.join(root, name))
+			else:
 				source_files_list.append(os.path.join(root, name))
 	source_files_list = sorted(source_files_list)
+
+	print source_files_list
 
 	if len(destination_files_list) == 0:
 		old_names = source_files_list
