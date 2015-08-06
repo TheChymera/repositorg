@@ -94,6 +94,12 @@ def sha256_hashfile(file_path, blocks="all"):
 	return hasher.hexdigest()
 
 def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prefix="", prompt=True, user_password=None, smb_extension=None, exclude=["Thumbs.db"]):
+	"""Organamer's core repositing function
+
+	Notes:
+		Currently breaks for letters > 1 because the string.lowercase.index() function only takes one argument.
+	"""
+
 	import string
 
 	#check if smb_extension is at all specified
@@ -141,6 +147,7 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 	if len(destination_files_list) == 0:
 		old_names = source_files_list
 		digits_start = 0
+		letters_start_index = 0
 	else:
 		lastfile, lastfile_pair = pair_lastfile(destination_files_list, source_files_list)
 		digits_start = int(os.path.splitext(lastfile)[0][-digits:])
@@ -203,7 +210,7 @@ def iterative_rename(digits_start, old_names, destination_root="/tmp", letters_s
 
 def prompt_and_copy(files_from, files_to, prompt_message="Copy? [yes/no]", prompt=True):
 	"""
-	Print a prompt for the copy phase, and if answered yes, copy.
+	Print a prompt with the summary of the copy phase, and if answered yes, copy.
 	"""
 	from shutil import copyfile
 
