@@ -51,7 +51,7 @@ def reformat(root_directory, digits=4, letters_start_index=None, prefix=None, pr
 		os.remove(original_name)
 
 def pair_lastfile(destination_files, source_files):
-	lastfile_found = False
+	lastfile_pair = None
 
 	destination_files = sorted(destination_files)
 	source_files = sorted(source_files, reverse=True)
@@ -68,11 +68,12 @@ def pair_lastfile(destination_files, source_files):
 				lastfile_found = True
 				break
 
-	if lastfile_found:
-		return [lastfile,lastfile_pair]
+	if lastfile_pair:
+		return [lastfile, lastfile_pair]
 	else:
 		destination_dir = os.path.basename(destination_files[0])
 		print("No pair for the last file from "+str(destination_dir)+", namely "+str(lastfile)+" was found.")
+		return [lastfile, lastfile_pair]
 
 def sha256_hashfile(file_path, blocks="all"):
 	import hashlib
@@ -92,7 +93,7 @@ def sha256_hashfile(file_path, blocks="all"):
 
 	return hasher.hexdigest()
 
-def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prefix="", prompt=True, user_password=None, smb_extension="", exclude=["Thumbs.db"]):
+def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prefix="", prompt=True, user_password=None, smb_extension=None, exclude=["Thumbs.db"]):
 	import string
 
 	#check if smb_extension is at all specified
@@ -133,14 +134,15 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 	source_files_list = []
 	for root, dirs, files in os.walk(source_root):
 		for name in files:
-			source_files_list.append(os.path.join(root, name))
+			if os.path.splitext(name)[1] == smb_extension:
+				source_files_list.append(os.path.join(root, name))
 	source_files_list = sorted(source_files_list)
 
 	if len(destination_files_list) == 0:
 		old_names = source_files_list
-		new_names=iterative_rename(0, old_names, destination_root, prefix="pcr_")
+		new_names = iterative_rename(0, old_names, destination_root)
 	else:
-		lastfile,lastfile_pair = pair_lastfile(destination_files_list, source_files_list)
+		lastfile, lastfile_pair = pair_lastfile(destination_files_list, source_files_list)
 		digits_start = int(os.path.splitext(lastfile)[0][-digits:])
 		if letters >= 1:
 			letters_start = os.path.splitext(lastfile)[0][-(digits+letters):-digits]
@@ -148,7 +150,11 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 		else:
 			letters_start_index=None
 
-		old_names = source_files_list[source_files_list.index(lastfile_pair)+1:]
+		if lastfile_pair:
+			old_names = source_files_list[source_files_list.index(lastfile_pair)+1:]
+		else:
+			old_names = source_files_list
+
 		if len(old_names) == 0:
 			print("No files found to reposit. Exiting.")
 			quit()
@@ -161,7 +167,7 @@ def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=Tr
 
 		# don't start numbering at the last digit, otherwise you would overwrite the file
 		digits_start += 1
-		new_names = iterative_rename(digits_start, old_names, destination_root, letters_start_index, prefix=prefix)
+		new_names = iterative_rename(digits_start, old_names, destination_root, letters_start_index, prefix=prefix, digits=digits)
 
 	if len(old_names) != len(new_names):
 		raise RuntimeError("Lists of old and new filenames are not of the same length. Unsafe to continue")

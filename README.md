@@ -42,7 +42,7 @@ Examples:
 ```
 organamer_reposit "/home/chymera/pictures/cameras/nd5100/" "/run/media/chymera/NIKON D5100/DCIM/"
 
-organamer_reposit . smb://192.168.65.219/Pryce_Labor/Christian/transit -u SAMBAuser%SAMBApassword -p "pcr_" -l 0 -e "jpg"
+organamer_reposit . smb://192.168.65.219/Pryce_Labor/Christian/transit -u SAMBAuser%SAMBApassword -p "age_" -l 0 -e "jpg"
 ```
 
 Arguments:
@@ -76,7 +76,7 @@ optional arguments:
 ```
 
 
-####organamer_reposit
+####organamer_reformat
 ```
 usage: organamer_reformat [-h] [-q] [-i LETTERS_START_INDEX] [-d DIGITS]
                           [-p PREFIX]
