@@ -16,6 +16,12 @@ def reposit():
 	parser.add_argument("-q", "--quiet", help="Do not ask for confirmation - DANGEROUS!", action="store_false")
 	args = parser.parse_args()
 
+	# parse escaped characters:
+	args.destination = bytes(args.destination, "utf-8").decode("unicode_escape") # python3
+	args.destination = args.destination.decode('string_escape') # python2
+	args.source = bytes(args.source, "utf-8").decode("unicode_escape") # python3
+	args.source = args.source.decode('string_escape') # python2
+
 	base.reposit(destination_root=args.destination, source_root=args.source, prompt=args.quiet, digits=args.digits, letters=args.letters, smb_extension=args.extension, parent_prefix=args.parent_prefix, prefix=args.prefix, user_password=args.user_password)
 
 def reformat():
@@ -26,5 +32,9 @@ def reformat():
 	parser.add_argument("-d", "--digits", help="Numerate files using the specified number of digits.", default=4, type=int)
 	parser.add_argument("-p", "--prefix", help="Add this prefix to all files.", type=str)
 	args = parser.parse_args()
+
+	# parse escaped characters
+	args.directory = bytes(args.directory, "utf-8").decode("unicode_escape") # python3
+	args.directory = args.directory.decode('string_escape') # python2
 
 	base.reformat(root_directory=args.directory, prompt=args.quiet, digits=args.digits, letters_start_index=args.letters_start_index, prefix=args.prefix)
