@@ -3,6 +3,8 @@ from __future__ import division
 __author__ = 'Horea Christian'
 import os
 import string
+import hashlib
+from shutil import copyfile
 
 def rename(root_dir, strip_string="", append_string="", prepend_string="", conditional=True, execute=False):
 	root_dir = os.path.expanduser(root_dir)
@@ -77,7 +79,6 @@ def pair_lastfile(destination_files, source_files):
 		return [lastfile, lastfile_pair]
 
 def sha256_hashfile(file_path, blocks="all"):
-	import hashlib
 	hasher = hashlib.sha256()
 	blocksize = hasher.block_size
 	afile = open(file_path, "rb")
@@ -228,7 +229,6 @@ def prompt_and_copy(files_from, files_to, prompt_message="Copy? [yes/no]", promp
 	"""
 	Print a prompt with the summary of the copy phase, and if answered yes, copy.
 	"""
-	from shutil import copyfile
 
 	if prompt:
 		for i in range(len(files_from)):
@@ -238,6 +238,8 @@ def prompt_and_copy(files_from, files_to, prompt_message="Copy? [yes/no]", promp
 
 	for i in range(len(files_from)):
 		print("Copying `"+str(files_from[i])+"` to `"+str(files_to[i])+"`.")
+		if not os.path.exists(os.path.dirname(files_to[i]):
+			os.makedirs(os.path.dirname(files_to[i])
 		copyfile(files_from[i], files_to[i])
 		print("Finished!")
 
