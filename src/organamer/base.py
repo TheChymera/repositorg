@@ -95,9 +95,11 @@ def sha256_hashfile(file_path, blocks="all"):
 def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=True, prefix="", prompt=True, user_password=None, smb_extension="", exclude=["Thumbs.db"]):
 	import string
 
-	#check fi the extension is formated correctly (leading period, as seen with `os.path.splitext()`)
-	if smb_extension[0] != ".":
-		smb_extension = "."+smb_extension
+	#check if smb_extension is at all specified
+	if smb_extension:
+	#check if the extension is formated correctly (leading period, as seen with `os.path.splitext()`)
+		if smb_extension[0] != ".":
+			smb_extension = "."+smb_extension
 
 	destination_root = os.path.expanduser(destination_root)
 	destination_files_list = []
