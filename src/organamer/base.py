@@ -95,7 +95,7 @@ def sha256_hashfile(file_path, blocks="all"):
 
 	return hasher.hexdigest()
 
-def reposit(destination_root, source_root, digits=4, letters=1, parent_prefix=False, prefix="", prompt=True, user_password=None, extension=None, exclude=["Thumbs.db"]):
+def reposit(destination_root, source_root, digits=4, letters=0, parent_prefix=False, prefix="", prompt=True, user_password=None, extension=None, exclude=["Thumbs.db"]):
 	"""Organamer's core repositing function
 
 	Arguments
