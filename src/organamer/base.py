@@ -74,7 +74,7 @@ def pair_lastfile(destination_files, source_files):
 	if lastfile_pair:
 		return [lastfile, lastfile_pair]
 	else:
-		destination_dir = os.path.basename(destination_files[0])
+		destination_dir = os.path.dirname(destination_files[0])
 		print("No pair for the last file from "+str(destination_dir)+", namely "+str(lastfile)+" was found.")
 		return [lastfile, lastfile_pair]
 
