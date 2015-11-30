@@ -40,7 +40,7 @@ usage: organamer_reposit [-h] [-l LETTERS] [-e EXTENSION] [-p PREFIX] [-a]
 
 Examples:
 ```
-organamer_reposit "/home/chymera/pictures/cameras/nd5100/" "/run/media/chymera/NIKON D5100/DCIM/"
+organamer_reposit "/home/chymera/pictures/cameras/nd5100/" "/run/media/chymera/NIKON D5100/DCIM/" -p nd750_
 
 organamer_reposit . smb://192.168.65.219/Pryce_Labor/Christian/transit -u SAMBAuser%SAMBApassword -p "age_" -l 0 -e "jpg"
 ```
