@@ -17,4 +17,4 @@ setup(
 			['organamer_reposit = organamer.cli:reposit',
 			'organamer_reformat = organamer.cli:reformat']
 		}
-    )
+	)
