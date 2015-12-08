@@ -17,7 +17,7 @@ emerge app-misc/organamer
 
 ####On all other Operating Systems:
 
-For all other Linux distributions or operating systems, the script can also be run directly from 
+For all other Linux distributions or operating systems, the script can also be run directly from
 its containing directory (and thus, needs only be downloaded from here):
 
 ```
@@ -26,9 +26,9 @@ pip install [--user] -e /your/local/organamer/path
 ```
 
 ##Usage
-Functions from the `organamer` module can be called via python, e.g.  `python -c 'import organamer; 
+Functions from the `organamer` module can be called via python, e.g.  `python -c 'import organamer;
 organamer.base.reposit()'`.
-Additionally we provide a more specific CLI scripts which you can run the most frequently used of our 
+Additionally we provide a more specific CLI scripts which you can run the most frequently used of our
 functions:
 
 ####organamer_reposit
@@ -109,5 +109,5 @@ optional arguments:
 
 
 ---
-Released under the GPLv3 license.
+Released under the GPLv3.
 Project led by Horea Christian (address all correspondence to: h.chr@mail.ru)
