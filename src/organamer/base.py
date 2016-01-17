@@ -95,7 +95,7 @@ def sha256_hashfile(file_path, blocks="all"):
 
 	return hasher.hexdigest()
 
-def reposit(destination_root, source_root, digits=4, letters=0, parent_prefix=False, prefix="", prompt=True, user_password=None, extension=None, exclude=["Thumbs.db"]):
+def reposit(destination_root, source_root, digits=4, letters=0, parent_prefix=False, prefix="", prompt=True, user_password=None, extensions=[], exclude=["Thumbs.db"]):
 	"""Organamer's core repositing function
 
 	Arguments
@@ -116,18 +116,22 @@ def reposit(destination_root, source_root, digits=4, letters=0, parent_prefix=Fa
 	"""
 
 	#check if extension is at all specified
-	if extension:
+	if extensions:
 	#check if the extension is formated correctly (leading period, as seen with `os.path.splitext()`)
-		if extension[0] != ".":
-			extension = "."+extension
+		for i in range(len(extensions)):
+			if extensions[i][0] != ".":
+				extensions[i] = "."+extensions[i]
+	# print(extensions)
 
 	destination_root = os.path.expanduser(destination_root)
 	destination_files_list = []
 	for root, dirs, files in os.walk(destination_root):
 		for name in files:
 			if name not in exclude:
-				if extension:
-					if os.path.splitext(name)[1] == extension:
+				if extensions:
+					# print(os.path.splitext(name)[1], extensions)
+					if os.path.splitext(name)[1] in extensions:
+						# print("yes")
 						destination_files_list.append(os.path.join(root, name))
 				else:
 					destination_files_list.append(os.path.join(root, name))
@@ -153,8 +157,8 @@ def reposit(destination_root, source_root, digits=4, letters=0, parent_prefix=Fa
 	source_files_list = []
 	for root, dirs, files in os.walk(source_root):
 		for name in files:
-			if extension:
-				if os.path.splitext(name)[1] == extension:
+			if extensions:
+				if os.path.splitext(name)[1] in extensions:
 					source_files_list.append(os.path.join(root, name))
 			else:
 				source_files_list.append(os.path.join(root, name))
