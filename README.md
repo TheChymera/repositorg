@@ -1,6 +1,6 @@
 #Organamer
 
-Organamer is a script suite made to help you automatically organize (and rename) large collections of files for storage (e.g. pictures).
+Organamer is Python module that lets you automatically organize (and rename) large collections of files for storage (e.g. pictures).
 
 ##Installation
 
@@ -26,10 +26,8 @@ pip install [--user] -e /your/local/organamer/path
 ```
 
 ##Usage
-Functions from the `organamer` module can be called via python, e.g.  `python -c 'import organamer;
-organamer.base.reposit()'`.
-Additionally we provide a more specific CLI scripts which you can run the most frequently used of our
-functions:
+Functions from the `organamer` module can be called from within the module directoy via Python, e.g.  `python -c 'import base; base.reposit()'`.
+Additionally we provide command-line bindings which you can run the most frequently used of our functions:
 
 ####organamer_reposit
 ```
@@ -40,7 +38,7 @@ usage: organamer_reposit [-h] [-l LETTERS] [-e EXTENSION] [-p PREFIX] [-a]
 
 Examples:
 ```
-organamer_reposit "/home/chymera/pictures/cameras/nd5100/" "/run/media/chymera/NIKON D5100/DCIM/" -p nd750_
+organamer_reposit "/home/chymera/pictures/cameras/nd5100/" "/run/media/chymera/NIKON D5100/DCIM/" -p nd750_ -e JPG -e NEF
 
 organamer_reposit . smb://192.168.65.219/Pryce_Labor/Christian/transit -u SAMBAuser%SAMBApassword -p "age_" -l 0 -e "jpg"
 ```
