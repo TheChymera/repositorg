@@ -95,14 +95,14 @@ def sha256_hashfile(file_path, blocks="all"):
 
 	return hasher.hexdigest()
 
-def reposit(destination_root, source_root, digits=4, letters=0, parent_prefix=False, prefix="", prompt=True, user_password=None, extensions=[], exclude=["Thumbs.db"]):
+def reposit(destination_root, source, digits=4, letters=0, parent_prefix=False, prefix="", prompt=True, user_password=None, extensions=[], exclude=["Thumbs.db"]):
 	"""Organamer's core repositing function
 
 	Arguments
 	---------
 	destination_root : string
 		Reposit the files from this directory.
-	source_root : list
+	source : list
 		Reposit the files to this directory.
 	digits : int
 		number of digits in file names
@@ -138,10 +138,10 @@ def reposit(destination_root, source_root, digits=4, letters=0, parent_prefix=Fa
 	destination_files_list = sorted(destination_files_list)
 
 	# check whether a path (and not a list) is parsed
-	if len(source_root) == 1 and source_root[0][-1] == "/":
-		source_root = source_root[0]
+	if len(source) == 1 and source[0][-1] == "/":
+		source = source[0]
 		#BEGIN copatibility for smb (samba share) download:
-		if source_root[0:6] == "smb://":
+		if source[0:6] == "smb://":
 			if not user_password:
 				raise RuntimeError("Please specify a user and login for the SAMBA share. The proper format is username%password")
 			from subprocess import call, list2cmdline
@@ -150,16 +150,16 @@ def reposit(destination_root, source_root, digits=4, letters=0, parent_prefix=Fa
 			tmpdir = "/tmp/organamer-"+time.strftime("%Y%m%d_%H%M%S")
 			os.makedirs(tmpdir)
 
-			_,_,ip,share,files_path = source_root.split("/", 4)
+			_,_,ip,share,files_path = source.split("/", 4)
 			lcd_part = "lcd "+tmpdir+"; cd "+files_path+"; prompt; mget *"+extension
 			call(["smbclient", "//"+ip+"/"+share, "-U", user_password, "-c", lcd_part])
-			source_root = tmpdir
+			source = tmpdir
 		#END smb capability
 		else:
-			source_root = os.path.expanduser(source_root)
+			source = os.path.expanduser(source)
 
 		source_files_list = []
-		for root, dirs, files in os.walk(source_root):
+		for root, dirs, files in os.walk(source):
 			for name in files:
 				if extensions:
 					if os.path.splitext(name)[1] in extensions:
@@ -168,7 +168,7 @@ def reposit(destination_root, source_root, digits=4, letters=0, parent_prefix=Fa
 					source_files_list.append(os.path.join(root, name))
 	# assume this is then a list of files
 	else:
-		source_files_list = source_root
+		source_files_list = source
 
 	source_files_list = sorted(source_files_list)
 
