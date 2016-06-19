@@ -5,6 +5,7 @@ import string
 import hashlib
 from shutil import copyfile
 from base import prompt_and_copy
+import argh
 
 def file_extractor(base_dir):
 	"""Renames files to their parent directory name, and numerates them in case there is more than one per folder
@@ -35,3 +36,5 @@ def file_extractor(base_dir):
 				new_filenames.append(os.path.normpath(root)+number+new_filename_extension)
 
 	prompt_and_copy(old_filenames, new_filenames, "Review the above operations list carefully and enter 'yes' to continue or 'no' to abort.")
+
+argh.dispatch_commands([file_extractor])
