@@ -13,7 +13,7 @@ setup(
 	classifiers = [],
 	install_requires = [],
 	provides = ["organamer"],
-	scripts=['organamer/extractor'],
+	scripts=['src/organamer/extractor'],
 	entry_points = {'console_scripts' : \
 			['organamer_reposit = organamer.cli:reposit',
 			'organamer_reformat = organamer.cli:reformat']
