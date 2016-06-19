@@ -105,6 +105,16 @@ optional arguments:
                         Add this prefix to all files.
 ```
 
+## CLI Debugging
+Normally the CLI bindings are executed as `organamer_reposit` or `organamer_reformat`.
+These executables get created by your python package manager of choice at install time.
+If you want to debug the code (or run it without installing) you can access these functions via the `cli.py` module, e.g.:
+
+```
+cd /local/path/to/organamer
+cd src/organamer
+python -c "from cli import reposit; reposit()" "/home/chymera/lala" /run/media/chymera/NIKON\ D750/DCIM/100ND750/ -e MOV
+```
 
 ---
 Released under the GPLv3.
