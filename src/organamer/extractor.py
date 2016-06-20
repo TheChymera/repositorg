@@ -34,5 +34,8 @@ def redundant_dirs(base_dir):
 
 	prompt_and_copy(old_filenames, new_filenames, "Review the above operations list carefully and enter 'yes' to continue or 'no' to abort.")
 
-if __name__ == '__main__':
+def main():
 	argh.dispatch_commands([redundant_dirs])
+
+if __name__ == '__main__':
+	main()
