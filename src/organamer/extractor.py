@@ -7,7 +7,7 @@ from shutil import copyfile
 from base import prompt_and_copy
 import argh
 
-def file_extractor(base_dir):
+def redundant_dirs(base_dir):
 	"""Renames files to their parent directory name, and numerates them in case there is more than one per folder
 
 	Mandatory Argumens:
@@ -37,4 +37,5 @@ def file_extractor(base_dir):
 
 	prompt_and_copy(old_filenames, new_filenames, "Review the above operations list carefully and enter 'yes' to continue or 'no' to abort.")
 
-argh.dispatch_commands([file_extractor])
+if __name__ == '__main__':
+	argh.dispatch_commands([redundant_dirs])
