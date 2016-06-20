@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 __author__ = 'Horea Christian'
 import os
 from base import prompt_and_copy
