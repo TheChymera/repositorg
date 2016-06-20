@@ -13,9 +13,9 @@ setup(
 	classifiers = [],
 	install_requires = [],
 	provides = ["organamer"],
-	scripts=['src/organamer/extractor.py'],
 	entry_points = {'console_scripts' : \
-			['organamer_reposit = organamer.cli:reposit',
+			['organamer_redundant_dirs = organamer.extract:__main__',
+			'organamer_reposit = organamer.cli:reposit',
 			'organamer_reformat = organamer.cli:reformat']
 		}
 	)
