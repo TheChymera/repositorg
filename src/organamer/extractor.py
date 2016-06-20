@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 __author__ = 'Horea Christian'
 import os
-import string
-import hashlib
-from shutil import copyfile
 from base import prompt_and_copy
 import argh
 
