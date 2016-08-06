@@ -16,7 +16,7 @@ setup(
 	entry_points = {'console_scripts' : \
 			['organamer_redundant_dirs = organamer.extractor:main',
 			'organamer_reposit = organamer.cli:reposit',
-			'organamer_reformat = organamer.cli:reformat'
+			'organamer_reformat = organamer.cli:reformat',
 			'organamer = organamer.cli:main']
 		}
 	)
