@@ -49,7 +49,7 @@ usage: organamer_reformat [-h] [-q] [-i LETTERS_START_INDEX] [-d DIGITS]
                           directory
 ```
 
-###Examples
+##Examples
 ```
 organamer reposit -p gh3_ -e MP4 -d 6 /run/media/user/video0/Video/cameras/gopro_hero3/ /run/media/user/8765-4321/DCIM/103GOPRO/
 
