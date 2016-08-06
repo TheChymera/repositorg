@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from __future__ import division
 __author__ = 'Horea Christian'
+import argh
 import os
 import string
 import hashlib
@@ -95,7 +96,11 @@ def sha256_hashfile(file_path, blocks="all"):
 
 	return hasher.hexdigest()
 
-def reposit(destination_root, source, digits=4, letters=0, parent_prefix=False, prefix="", prompt=True, user_password=None, extensions=[], exclude=["Thumbs.db"]):
+@argh.arg('-d', '--digits')
+@argh.arg('-e', '--extensions', nargs='+', type=str)
+@argh.arg('-p', '--prefix')
+@argh.arg('source', nargs='+', type=str)
+def reposit(destination_root, source, digits=4, exclude=["Thumbs.db"], extensions=[], letters=0, parent_prefix=False, prefix="", prompt=True, user_password=None):
 	"""Organamer's core repositing function
 
 	Arguments
@@ -103,12 +108,23 @@ def reposit(destination_root, source, digits=4, letters=0, parent_prefix=False, 
 	destination_root : string
 		Reposit the files from this directory.
 	source : list
-		Reposit the files to this directory.
+		Reposit the files into this directory.
 	digits : int
-		number of digits in file names
+		Create new file names with this many digits.
+	exclude: list
+		Exclude these file names from the repositing process.
+	extensions: list
+		Consider only files with these extensions.
 	letters : int
-		number of letters to prepend to the digits in the file names
-	parent_prefix :
+		Prepend this many letters to the digits in the new file names.
+	parent_prefix : bool
+		Add the name of the root dir as a prefix to all new file names.
+	prefix: string
+		Add this prefix to all new file names.
+	user_password: string
+		User and password for your remote file source (format: 'user%password')
+	prompt: bool
+		Ask for confirmation - setting to False is DANGEROUS!
 
 	Notes
 	-----
