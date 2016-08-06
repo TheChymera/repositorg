@@ -39,7 +39,27 @@ def rename(root_dir, strip_string="", append_string="", prepend_string="", condi
 	else:
 		return [old_filenames, new_filenames]
 
-def reformat(root_directory, digits=4, letters_start_index=None, prefix=None, prompt=True, exclude=["Thumbs.db"]):
+@argh.arg('-d', '--digits')
+@argh.arg('-p', '--prefix')
+def reformat(root_directory, digits=4, exclude=["Thumbs.db"], letters_start_index=None, prefix=None, prompt=True):
+	"""Reformat file names in given directory.
+
+	Arguments
+	---------
+	root_directory : string
+		Reformat the files in this directory.
+	digits : int
+		Create new file names with this many digits.
+	exclude: list
+		Exclude these file names from the repositing process.
+	letters_start_index : int
+		Start letter incremention in file name at this letter (a=0, b=1, etc.)
+	prefix: string
+		Add this prefix to all new file names.
+	prompt: bool
+		Ask for confirmation - setting to False is DANGEROUS!
+	"""
+
 	root_directory = os.path.expanduser(root_directory)
 	original_files_list = []
 	for root, dirs, files in os.walk(root_directory):
