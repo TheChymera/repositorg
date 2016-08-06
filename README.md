@@ -27,7 +27,13 @@ pip install [--user] -e /your/local/organamer/path
 
 ##Usage
 Functions from the `organamer` module can be called from within the module directoy via Python, e.g.  `python -c 'import base; base.reposit()'`.
-Additionally we provide command-line bindings which you can run the most frequently used of our functions:
+Additionally we provide the a base command-line function, `organamer` via which you can call our most frequently used functions.
+For `organamer_reposit` and `organamer_reformat` we provide legacy direct command line bindings.
+
+####organamer
+```
+usage: organamer [-h] {reposit,redundant-dirs} ...
+```
 
 ####organamer_reposit
 ```
@@ -36,44 +42,6 @@ usage: organamer_reposit [-h] [-l LETTERS] [-e EXTENSION] [-p PREFIX] [-a]
                          destination source
 ```
 
-Examples:
-```
-organamer_reposit "/home/chymera/pictures/cameras/nd5100/" "/run/media/chymera/NIKON D5100/DCIM/" -p nd750_ -e JPG -e NEF
-
-organamer_reposit . smb://192.168.65.219/Pryce_Labor/Christian/transit -u SAMBAuser%SAMBApassword -p "age_" -l 0 -e "jpg"
-```
-
-Arguments:
-
-```
-positional arguments:
-  destination           Path to store files into (excluding alphanumeric
-                        storage directories)
-  source                Path to reposit files from (all subdirectories will be
-                        crawled!)
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -l LETTERS, --letters LETTERS
-                        Prepend the specified number of letters to
-                        theincremental nummeration (default is 1).
-  -e EXTENSION, --extension EXTENSION
-                        Filter by this extension (currently works for SAMBA
-                        share download ONLY).
-  -p PREFIX, --prefix PREFIX
-                        Add this prefix to all files.
-  -a, --parent-prefix   Add the name of the rot dir as a prefix to all files
-                        (defult FALSE).
-  -u USER_PASSWORD, --user-password USER_PASSWORD
-                        User and password for your remote file source (format:
-                        `user%password`)
-  -d DIGITS, --digits DIGITS
-                        Numerate files using the specified number of digits.
-  -q, --quiet           Do not ask for confirmation - DANGEROUS!
-
-```
-
-
 ####organamer_reformat
 ```
 usage: organamer_reformat [-h] [-q] [-i LETTERS_START_INDEX] [-d DIGITS]
@@ -81,39 +49,15 @@ usage: organamer_reformat [-h] [-q] [-i LETTERS_START_INDEX] [-d DIGITS]
                           directory
 ```
 
-Example:
+###Examples
 ```
+organamer reposit -p gh3_ -e MP4 -d 6 /run/media/user/video0/Video/cameras/gopro_hero3/ /run/media/user/8765-4321/DCIM/103GOPRO/
+
+organamer_reposit "/home/user/pictures/cameras/nd5100/" "/run/media/user/NIKON D5100/DCIM/" -p nd750_ -e JPG -e NEF
+
+organamer_reposit . smb://192.168.65.219/Pryce_Labor/Christian/transit -u SAMBAuser%SAMBApassword -p "age_" -l 0 -e "jpg"
+
 organamer_reformat . -d 4 -p "pcr_"
-```
-
-Arguments:
-
-```
-positional arguments:
-  directory             The directory containing the files that need
-                        reformatting.
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -q, --quiet           Do not ask for confirmation - DANGEROUS!
-  -i LETTERS_START_INDEX, --letters-start-index LETTERS_START_INDEX
-                        Numerate with letters starting at this index (default
-                        is None; specify values as integers: 0=a, 1=b, etc.).
-  -d DIGITS, --digits DIGITS
-                        Numerate files using the specified number of digits.
-  -p PREFIX, --prefix PREFIX
-                        Add this prefix to all files.
-```
-
-## CLI Debugging
-Normally the CLI bindings are executed as `organamer_reposit` or `organamer_reformat`.
-These executables get created by your python package manager of choice at install time.
-If you want to debug the code (or run it without installing) you can access these functions via the `cli.py` module, e.g.:
-
-```
-cd /local/path/to/organamer
-cd src/organamer
-python -c "from cli import reposit; reposit()" "/home/chymera/lala" /run/media/chymera/NIKON\ D750/DCIM/100ND750/ -e MOV
 ```
 
 ---
