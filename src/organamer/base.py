@@ -137,6 +137,7 @@ def reposit(destination_root, source, digits=4, exclude=["Thumbs.db"], extension
 		Consider only files with these extensions.
 	letters : int
 		Prepend this many letters to the digits in the new file names.
+		The files are reposited in destination_root subdirectories specific for every letter.
 	parent_prefix : bool
 		Add the name of the root dir as a prefix to all new file names.
 	prefix: string
