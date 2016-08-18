@@ -5,7 +5,7 @@ import os
 import time
 
 
-def simple_processing(files_path, input_ext, output_ext, parameters="-vf 'transpose=dir=clock, transpose=dir=clock, crop=1080:1080' -crf 16 -c:a copy", max_processes =4):
+def simple_processing(files_path, input_ext, output_ext, parameters='-vf "transpose=dir=clock, transpose=dir=clock, crop=1080:1080" -crf 16 -c:a copy', max_processes =4):
 	if input_ext == output_ext:
 		raise ValueError("The input and output extensions should be different. If you want to keep the format try to de/capitalize the new extension.")
 
