@@ -4,7 +4,7 @@ import os
 from base import prompt_and_copy
 import argh
 
-def redundant_dirs(base_dir):
+def redundant(base_dir):
 	"""Renames files to their parent directory name, and numerates them in case there is more than one per folder
 
 	Mandatory Argumens:

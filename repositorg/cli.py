@@ -6,9 +6,10 @@ import base
 import sys
 
 def main():
-	from extractor import redundant_dirs
 	from base import reposit, reformat
-	argh.dispatch_commands([reposit, reformat, redundant_dirs])
+	from extractor import redundant
+	from processing import vidproc
+	argh.dispatch_commands([reposit, reformat, redundant, vidproc])
 
 if __name__ == '__main__':
 	main()
