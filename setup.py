@@ -8,14 +8,11 @@ setup(
 	author_email = "h.chr@mail.ru",
 	url = "https://github.com/TheChymera/repositorg",
 	keywords = ["reposit","rename", "organize", "batch", "preprocess"],
-	packages = find_packages("src"),
-	package_dir = {"":"src"},
 	classifiers = [],
 	install_requires = [],
-	provides = ["organamer"],
+	provides = ["chyMRI"],
+	packages = ["chyMRI"],
 	entry_points = {'console_scripts' : \
-			['organamer_reposit = organamer.cli:reposit',
-			'organamer_reformat = organamer.cli:reformat',
-			'organamer = organamer.cli:main']
+			['repositorg = repositorg.cli:main']
 		}
 	)
