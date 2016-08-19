@@ -1,13 +1,13 @@
 from setuptools import setup, find_packages
 
 setup(
-	name="organamer",
+	name="repositorg",
 	version="",
-	description = "Automatically organize (and rename) large collections of files",
+	description = "Automatically reposit, organize, rename, and process large collections of files",
 	author = "Horea Christian",
 	author_email = "h.chr@mail.ru",
-	url = "https://github.com/TheChymera/organamer",
-	keywords = ["rename", "organize", "batch"],
+	url = "https://github.com/TheChymera/repositorg",
+	keywords = ["reposit","rename", "organize", "batch", "preprocess"],
 	packages = find_packages("src"),
 	package_dir = {"":"src"},
 	classifiers = [],
