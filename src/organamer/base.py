@@ -126,9 +126,9 @@ def reposit(destination_root, source, digits=4, exclude=["Thumbs.db"], extension
 	Arguments
 	---------
 	destination_root : string
-		Reposit the files from this directory.
-	source : list
 		Reposit the files into this directory.
+	source : list
+		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
 	digits : int
 		Create new file names with this many digits.
 	exclude: list
