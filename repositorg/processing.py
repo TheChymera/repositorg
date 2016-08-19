@@ -45,7 +45,9 @@ def vidproc(source, extensions=[], output_ext="mkv", parameters="-vf 'transpose=
 	else:
 		in_paths = [os.path.expanduser(in_path) for in_path in source]
 
-	in_paths = [in_path for in_path in in_paths if os.path.splitext(in_path)[1] in extensions]
+	if extensions:
+		in_paths = [in_path for in_path in in_paths if os.path.splitext(in_path)[1] in extensions]
+
 	paths_dict = {key:key for key in in_paths}
 	paths_dict.update((x, os.path.splitext(y)[0]+output_ext) for x,y in paths_dict.items())
 
@@ -58,8 +60,6 @@ def vidproc(source, extensions=[], output_ext="mkv", parameters="-vf 'transpose=
 			os.wait()
 			processes.difference_update([
 				p for p in processes if p.poll() is not None])
-
-	# command = "ffmpeg -i nd750_a0040.MOV -vf "transpose=dir=clock, transpose=dir=clock, crop=1080:1080" -crf 16 -c:a copy out.mkv "
 
 if __name__ == '__main__':
 	vidproc(["~/data/cameras/nd750/a/"], extensions=["MOV"])
