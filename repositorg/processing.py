@@ -24,8 +24,8 @@ def vidproc(source, extensions=[], output_ext="mkv", parameters="-vf 'transpose=
 
 	Notes
 	-----
-	If the function complains of too few arguments, the mandatory positional argument "source" might be caugt by one of the others.
-	Try separating it with " -- " from the rest of the call. 
+	If the CLI binding complains of too few arguments, the mandatory positional argument "source" might be caugt by one of the others.
+	Try separating it with " -- " from the rest of the call.
 	"""
 
 
