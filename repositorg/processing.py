@@ -1,8 +1,7 @@
+import argh
 import os
-
 import shlex
 import subprocess
-import os
 import time
 
 @argh.arg('-e', '--extensions', nargs='+', type=str)
@@ -41,4 +40,4 @@ def vidproc(source, extensions=[], output_ext="mkv", parameters="-vf 'transpose=
 	# command = "ffmpeg -i nd750_a0040.MOV -vf "transpose=dir=clock, transpose=dir=clock, crop=1080:1080" -crf 16 -c:a copy out.mkv "
 
 if __name__ == '__main__':
-	simple_processing("~/data/cameras/nd750/a/", "MOV", "mkv")
+	simple_processing("~/data/cameras/nd750/a/")
