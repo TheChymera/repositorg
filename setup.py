@@ -10,8 +10,8 @@ setup(
 	keywords = ["reposit","rename", "organize", "batch", "preprocess"],
 	classifiers = [],
 	install_requires = [],
-	provides = ["chyMRI"],
-	packages = ["chyMRI"],
+	provides = ["repositorg"],
+	packages = ["repositorg"],
 	entry_points = {'console_scripts' : \
 			['repositorg = repositorg.cli:main']
 		}
