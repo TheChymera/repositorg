@@ -84,7 +84,6 @@ def reformat(root_directory,
 		os.remove(original_name)
 
 def pair_lastfile(destination_files, source_files):
-	lastfile_pair = None
 
 	destination_files = sorted(destination_files)
 	source_files = sorted(source_files, reverse=True)
@@ -92,15 +91,15 @@ def pair_lastfile(destination_files, source_files):
 	lastfile_shorthash = sha256_hashfile(lastfile, blocks=1)
 	lastfile_longhash = sha256_hashfile(lastfile)
 
-	for source_file in source_files:
-		file_shorthash = sha256_hashfile(source_file, blocks=1)
-		if file_shorthash == lastfile_shorthash:
-			file_longhash = sha256_hashfile(source_file)
-			if file_longhash == lastfile_longhash:
-				lastfile_pair = source_file
-				lastfile_found = True
-				break
-
+	lastfile_pair = None
+	if lastfile_shorthash and lastfile_longhash:
+		for source_file in source_files:
+			file_shorthash = sha256_hashfile(source_file, blocks=1)
+			if file_shorthash == lastfile_shorthash:
+				file_longhash = sha256_hashfile(source_file)
+				if file_longhash == lastfile_longhash:
+					lastfile_pair = source_file
+					break
 	if lastfile_pair:
 		return [lastfile, lastfile_pair]
 	else:
@@ -111,7 +110,10 @@ def pair_lastfile(destination_files, source_files):
 def sha256_hashfile(file_path, blocks="all"):
 	hasher = hashlib.sha256()
 	blocksize = hasher.block_size
-	afile = open(file_path, "rb")
+	try:
+		afile = open(file_path, "rb")
+	except IOError:
+		return
 	buf = afile.read(blocksize)
 	block_count=0
 	while len(buf) > 0:
@@ -127,6 +129,7 @@ def sha256_hashfile(file_path, blocks="all"):
 
 @argh.arg('-d', '--digits')
 @argh.arg('-e', '--extensions', nargs='+', type=str)
+@argh.arg('-n', '--numbering-start', type=int)
 @argh.arg('-p', '--prefix')
 @argh.arg('source', nargs='+', type=str)
 def reposit(destination_root, source,
@@ -134,6 +137,8 @@ def reposit(destination_root, source,
 	exclude=["Thumbs.db"],
 	extensions=[],
 	letters=0,
+	letters_start_index=None,
+	numbering_start=None,
 	parent_prefix=False,
 	prefix="",
 	prompt=True,
@@ -177,7 +182,7 @@ def reposit(destination_root, source,
 			if extensions[i][0] != ".":
 				extensions[i] = "."+extensions[i]
 
-	destination_root = os.path.expanduser(destination_root)
+	destination_root = os.path.abspath(os.path.expanduser(destination_root))
 	destination_files_list = []
 	for root, dirs, files in os.walk(destination_root):
 		for name in files:
@@ -226,16 +231,19 @@ def reposit(destination_root, source,
 
 	if len(destination_files_list) == 0:
 		old_names = source_files_list
-		digits_start = 0
-		letters_start_index = 0
+		if not numbering_start:
+			numbering_start= 0
+		if not letters_start_index:
+			letters_start_index = 0
 	else:
 		lastfile, lastfile_pair = pair_lastfile(destination_files_list, source_files_list)
-		digits_start = int(os.path.splitext(lastfile)[0][-digits:])
-		if letters >= 1:
+		if not numbering_start:
+			numbering_start = int(os.path.splitext(lastfile)[0][-digits:])
+		if letters >= 1 and not letters_start_index:
 			letters_start = os.path.splitext(lastfile)[0][-(digits+letters):-digits]
 			letters_start_index = string.lowercase.index(letters_start)
 		else:
-			letters_start_index=None
+			letters_start_index = None
 
 		if lastfile_pair:
 			old_names = source_files_list[source_files_list.index(lastfile_pair)+1:]
@@ -253,9 +261,9 @@ def reposit(destination_root, source,
 			prefix += "_"
 
 		# don't start numbering at the last digit, otherwise you would overwrite the file
-		digits_start += 1
+		numbering_start += 1
 
-	new_names = iterative_rename(digits_start, old_names, destination_root, letters_start_index, prefix=prefix, digits=digits)
+	new_names = iterative_rename(numbering_start, old_names, destination_root, letters_start_index, prefix=prefix, digits=digits)
 
 	if len(old_names) != len(new_names):
 		raise RuntimeError("Lists of old and new filenames are not of the same length. Unsafe to continue")
