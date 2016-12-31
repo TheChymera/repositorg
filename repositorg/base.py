@@ -41,7 +41,14 @@ def rename(root_dir, strip_string="", append_string="", prepend_string="", condi
 
 @argh.arg('-d', '--digits')
 @argh.arg('-p', '--prefix')
-def reformat(root_directory, digits=4, exclude=["Thumbs.db"], letters_start_index=None, prefix=None, prompt=True):
+def reformat(root_directory,
+	digits=4,
+	exclude=["Thumbs.db"],
+	letters_start_index=None,
+	numbering_start=0,
+	prefix=None,
+	prompt=True,
+	):
 	"""Reformat file names in given directory.
 
 	Arguments
@@ -54,6 +61,8 @@ def reformat(root_directory, digits=4, exclude=["Thumbs.db"], letters_start_inde
 		Exclude these file names from the repositing process.
 	letters_start_index : int
 		Start letter incremention in file name at this letter (a=0, b=1, etc.)
+	numbering_start : int
+		Start number incremention in file name at this integer.
 	prefix: string
 		Add this prefix to all new file names.
 	prompt: bool
@@ -67,7 +76,7 @@ def reformat(root_directory, digits=4, exclude=["Thumbs.db"], letters_start_inde
 			if name not in exclude:
 				original_files_list.append(os.path.join(root, name))
 	original_files_list = sorted(original_files_list)
-	new_files_list = iterative_rename(0, original_files_list,root_directory, letters_start_index=letters_start_index, prefix=prefix, digits=digits)
+	new_files_list = iterative_rename(numbering_start, original_files_list,root_directory, letters_start_index=letters_start_index, prefix=prefix, digits=digits)
 	prompt_and_copy(original_files_list, new_files_list,
 					"\nThe original file locations above will be DELETED after copying.\nReview the above operations list carefully and enter 'yes' to continue or 'no' to abort."
 					)
