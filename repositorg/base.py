@@ -129,7 +129,16 @@ def sha256_hashfile(file_path, blocks="all"):
 @argh.arg('-e', '--extensions', nargs='+', type=str)
 @argh.arg('-p', '--prefix')
 @argh.arg('source', nargs='+', type=str)
-def reposit(destination_root, source, digits=4, exclude=["Thumbs.db"], extensions=[], letters=0, parent_prefix=False, prefix="", prompt=True, user_password=None):
+def reposit(destination_root, source,
+	digits=4,
+	exclude=["Thumbs.db"],
+	extensions=[],
+	letters=0,
+	parent_prefix=False,
+	prefix="",
+	prompt=True,
+	user_password=None,
+	):
 	"""Organamer's core repositing function
 
 	Arguments
