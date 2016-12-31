@@ -7,7 +7,13 @@ import string
 import hashlib
 from shutil import copyfile
 
-def rename(root_dir, strip_string="", append_string="", prepend_string="", conditional=True, execute=False):
+def rename(root_dir,
+	strip_string="",
+	append_string="",
+	prepend_string="",
+	conditional=True,
+	execute=False,
+	):
 	root_dir = os.path.expanduser(root_dir)
 	old_filenames=[]
 	new_filenames=[]
@@ -130,6 +136,7 @@ def sha256_hashfile(file_path, blocks="all"):
 @argh.arg('-d', '--digits')
 @argh.arg('-e', '--extensions', nargs='+', type=str)
 @argh.arg('-n', '--numbering-start', type=int)
+@argh.arg('-l', '--letters-start-index', type=int)
 @argh.arg('-p', '--prefix')
 @argh.arg('source', nargs='+', type=str)
 def reposit(destination_root, source,
@@ -161,6 +168,10 @@ def reposit(destination_root, source,
 	letters : int
 		Prepend this many letters to the digits in the new file names.
 		The files are reposited in destination_root subdirectories specific for every letter.
+	letters_start_index : int
+		Start letter incremention in file name at this letter (a=0, b=1, etc.)
+	numbering_start : int
+		Start number incremention in file name at this integer.
 	parent_prefix : bool
 		Add the name of the root dir as a prefix to all new file names.
 	prefix: string
@@ -270,7 +281,12 @@ def reposit(destination_root, source,
 
 	prompt_and_copy(old_names, new_names, "Review the above operations list carefully and enter 'yes' to continue or 'no' to abort.")
 
-def iterative_rename(digits_start, old_names, destination_root="/tmp", letters_start_index=None, prefix="", digits=4):
+def iterative_rename(digits_start, old_names,
+	destination_root="/tmp",
+	letters_start_index=None,
+	prefix="",
+	digits=4,
+	):
 	count=0
 	new_names=[]
 	while digits_start <= 10**digits - 1 and count <= len(old_names)-1:
@@ -297,7 +313,10 @@ def iterative_rename(digits_start, old_names, destination_root="/tmp", letters_s
 		digits_start += 1
 	return new_names
 
-def prompt_and_copy(files_from, files_to, prompt_message="Copy? [yes/no]", prompt=True):
+def prompt_and_copy(files_from, files_to,
+	prompt_message="Copy? [yes/no]",
+	prompt=True,
+	):
 	"""
 	Print a prompt with the summary of the copy phase, and if answered yes, copy.
 	"""
