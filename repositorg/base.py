@@ -167,7 +167,6 @@ def reposit(destination_root, source, digits=4, exclude=["Thumbs.db"], extension
 		for i in range(len(extensions)):
 			if extensions[i][0] != ".":
 				extensions[i] = "."+extensions[i]
-	# print(extensions)
 
 	destination_root = os.path.expanduser(destination_root)
 	destination_files_list = []
@@ -175,9 +174,7 @@ def reposit(destination_root, source, digits=4, exclude=["Thumbs.db"], extension
 		for name in files:
 			if name not in exclude:
 				if extensions:
-					# print(os.path.splitext(name)[1], extensions)
 					if os.path.splitext(name)[1] in extensions:
-						# print("yes")
 						destination_files_list.append(os.path.join(root, name))
 				else:
 					destination_files_list.append(os.path.join(root, name))
