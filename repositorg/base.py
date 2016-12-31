@@ -46,13 +46,15 @@ def rename(root_dir,
 		return [old_filenames, new_filenames]
 
 @argh.arg('-d', '--digits')
+@argh.arg('-l', '--letters-start-index', type=int)
+@argh.arg('-n', '--numbering-start', type=int)
 @argh.arg('-p', '--prefix')
 def reformat(root_directory,
 	digits=4,
 	exclude=["Thumbs.db"],
 	letters_start_index=None,
 	numbering_start=0,
-	prefix=None,
+	prefix="",
 	prompt=True,
 	):
 	"""Reformat file names in given directory.
@@ -82,7 +84,7 @@ def reformat(root_directory,
 			if name not in exclude:
 				original_files_list.append(os.path.join(root, name))
 	original_files_list = sorted(original_files_list)
-	new_files_list = iterative_rename(numbering_start, original_files_list,root_directory, letters_start_index=letters_start_index, prefix=prefix, digits=digits)
+	new_files_list = iterative_rename(numbering_start, original_files_list, root_directory, letters_start_index=letters_start_index, prefix=prefix, digits=digits)
 	prompt_and_copy(original_files_list, new_files_list,
 					"\nThe original file locations above will be DELETED after copying.\nReview the above operations list carefully and enter 'yes' to continue or 'no' to abort."
 					)
