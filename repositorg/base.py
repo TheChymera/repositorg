@@ -125,10 +125,10 @@ def sha256_hashfile(file_path, blocks="all"):
 	buf = afile.read(blocksize)
 	block_count=0
 	while len(buf) > 0:
-		if block_count > blocks:
-			break
-		elif blocks == "all":
+		if blocks == "all":
 			pass
+		elif block_count > blocks:
+			break
 		hasher.update(buf)
 		buf = afile.read(blocksize)
 		block_count += 1
@@ -187,7 +187,6 @@ def reposit(destination_root, source,
 	-----
 	Currently breaks for letters > 1 because the string.lowercase.index() function only takes one argument.
 	"""
-
 	#check if extension is at all specified
 	if extensions:
 	#check if the extension is formated correctly (leading period, as seen with `os.path.splitext()`)
@@ -254,7 +253,10 @@ def reposit(destination_root, source,
 			numbering_start = int(os.path.splitext(lastfile)[0][-digits:])
 		if letters >= 1 and not letters_start_index:
 			letters_start = os.path.splitext(lastfile)[0][-(digits+letters):-digits]
-			letters_start_index = string.lowercase.index(letters_start)
+			try:
+				letters_start_index = string.lowercase.index(letters_start)
+			except AttributeError:
+				letters_start_index = string.ascii_lowercase.index(letters_start)
 		else:
 			letters_start_index = None
 
@@ -302,7 +304,10 @@ def iterative_rename(digits_start, old_names,
 			if letters_start_index or letters_start_index == 0:
 				letters_start_index += 1
 		if letters_start_index or letters_start_index == 0:
-			letters_start = string.lowercase[letters_start_index]
+			try:
+				letters_start = string.lowercase[letters_start_index]
+			except AttributeError:
+				letters_start = string.ascii_lowercase[letters_start_index]
 		else:
 			letters_start=""
 		#create formatting template of length `digits`:
@@ -363,7 +368,10 @@ def query_yes_no(prompt_message, default="no"):
 
 	while True:
 		sys.stdout.write(prompt_message + prompt)
-		choice = raw_input().lower()
+		try:
+			choice = raw_input().lower()
+		except NameError:
+			choice = input().lower()
 		if default is not None and choice == '':
 			return valid[default]
 		elif choice in valid:
