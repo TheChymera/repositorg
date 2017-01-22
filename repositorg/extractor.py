@@ -1,7 +1,10 @@
 #!/usr/bin/python
 __author__ = 'Horea Christian'
 import os
-from base import prompt_and_copy
+try:
+	from base import prompt_and_copy
+except ImportError:
+	from .base import prompt_and_copy
 import argh
 
 def redundant(base_dir):
