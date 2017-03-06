@@ -108,11 +108,9 @@ def reformat(source,
 
 	source_files = sorted(source_files)
 	new_files_list = iterative_rename(numbering_start, source_files, destination_root, letters_start_index=letters_start_index, prefix=prefix, digits=digits)
-	prompt_and_copy(source_files, new_files_list,
+	prompt_and_copy(source_files, new_files_list, detele_source=True,
 					"\nThe original file locations above will be DELETED after copying.\nReview the above operations list carefully and enter 'yes' to continue or 'no' to abort."
 					)
-	for source_file in source_files:
-		os.remove(source_file)
 
 def pair_lastfile(destination_files, source_files):
 
@@ -345,6 +343,7 @@ def iterative_rename(digits_start, old_names,
 
 def prompt_and_copy(files_from, files_to,
 	prompt_message="Copy? [yes/no]",
+	detele_source=False,
 	prompt=True,
 	):
 	"""
@@ -363,6 +362,12 @@ def prompt_and_copy(files_from, files_to,
 			os.makedirs(os.path.dirname(files_to[i]))
 		copyfile(files_from[i], files_to[i])
 		print("Finished!")
+		if detele_source:
+			print("Deleting `"+str(files_from[i])+"`")
+			os.remove(files_from[i])
+			print("Deleted!")
+
+
 
 def query_yes_no(prompt_message, default="no"):
 	"""Print a yes/no prompt via raw_input() and return the answer.
