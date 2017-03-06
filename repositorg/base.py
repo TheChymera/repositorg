@@ -5,6 +5,7 @@ import argh
 import os
 import string
 import hashlib
+import warnings
 from shutil import copyfile
 
 def rename(root_dir,
@@ -46,12 +47,15 @@ def rename(root_dir,
 		return [old_filenames, new_filenames]
 
 @argh.arg('-d', '--digits')
+@argh.arg('-e', '--extensions', nargs='+', type=str)
 @argh.arg('-l', '--letters-start-index', type=int)
 @argh.arg('-n', '--numbering-start', type=int)
 @argh.arg('-p', '--prefix')
-def reformat(root_directory,
+@argh.arg('source', nargs='+', type=str)
+def reformat(source,
 	digits=4,
 	exclude=["Thumbs.db"],
+	extensions=[],
 	letters_start_index=None,
 	numbering_start=0,
 	prefix="",
@@ -61,8 +65,8 @@ def reformat(root_directory,
 
 	Arguments
 	---------
-	root_directory : string
-		Reformat the files in this directory.
+	source : string
+		Reformat these files (or ONE directory, in which case all fies are reformatted).
 	digits : int
 		Create new file names with this many digits.
 	exclude: list
@@ -77,19 +81,38 @@ def reformat(root_directory,
 		Ask for confirmation - setting to False is DANGEROUS!
 	"""
 
-	root_directory = os.path.expanduser(root_directory)
-	original_files_list = []
-	for root, dirs, files in os.walk(root_directory):
-		for name in files:
-			if name not in exclude:
-				original_files_list.append(os.path.join(root, name))
-	original_files_list = sorted(original_files_list)
-	new_files_list = iterative_rename(numbering_start, original_files_list, root_directory, letters_start_index=letters_start_index, prefix=prefix, digits=digits)
-	prompt_and_copy(original_files_list, new_files_list,
+	if len(source) == 1 and source[0][-1] in ["/","."]:
+		source = source[0]
+		source = os.path.expanduser(source)
+		destination_root = source
+
+		source_files = []
+		for root, dirs, files in os.walk(source):
+			for name in files:
+				if extensions:
+					if os.path.splitext(name)[1] in extensions:
+						source_files.append(os.path.join(root, name))
+				else:
+					source_files.append(os.path.join(root, name))
+	else:
+		source_files = [os.path.expanduser(i) for i in source]
+
+		source_dirs = []
+		for abs_source_file, rel_source_file in zip(source_files, source):
+			if abs_source_file.endswith(rel_source_file):
+				source_dirs.append(abs_source_file[:-len(rel_source_file)])
+		source_dirs = sorted(list(set(source_dirs)))
+		if len(source_dirs) >= 1:
+			warnings.warn("The source files provided are contained in multiple directories. Per defult we are placing the reformatted files in the alphabetically first directory.")
+		destination_root = source_dirs[0]
+
+	source_files = sorted(source_files)
+	new_files_list = iterative_rename(numbering_start, source_files, destination_root, letters_start_index=letters_start_index, prefix=prefix, digits=digits)
+	prompt_and_copy(source_files, new_files_list,
 					"\nThe original file locations above will be DELETED after copying.\nReview the above operations list carefully and enter 'yes' to continue or 'no' to abort."
 					)
-	for original_name in original_files_list:
-		os.remove(original_name)
+	for source_file in source_files:
+		os.remove(source_file)
 
 def pair_lastfile(destination_files, source_files):
 
