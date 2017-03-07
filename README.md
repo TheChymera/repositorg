@@ -36,6 +36,8 @@ usage: repositorg [-h] {reposit,reformat,redundant,vidproc} ...
 
 ##Examples
 ```
+repositorg reformat -l 0 -n 79 -p nd750_ a/*MOV
+
 repositorg reposit --letters 1 -p nd750_ -e NEF JPG -d 4 ~/Pictures/cameras/nd750/ /run/media/chymera/NIKON\ D750/DCIM/100ND750/
 
 repositorg reposit -p gh3_ -e MP4 -d 6 /run/media/user/video0/Video/cameras/gopro_hero3/ /run/media/user/8765-4321/DCIM/103GOPRO/
