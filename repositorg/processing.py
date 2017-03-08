@@ -53,7 +53,7 @@ def vidproc(source, extensions=[], output_ext="mkv", parameters="-vf 'transpose=
 
 	processes = set()
 	for key in paths_dict:
-		raw_command = " ".join(["ffmpeg -i", key, parameters, paths_dict[key	]])
+		raw_command = " ".join(["ffmpeg -i", key, parameters, paths_dict[key]])
 		args = shlex.split(raw_command)
 		processes.add(subprocess.Popen(args))
 		if len(processes) >= max_processes:
