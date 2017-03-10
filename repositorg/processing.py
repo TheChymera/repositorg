@@ -60,6 +60,7 @@ def vidproc(source, extensions=[], output_ext="mkv", parameters="-vf 'transpose=
 			os.wait()
 			processes.difference_update([
 				p for p in processes if p.poll() is not None])
-
-if __name__ == '__main__':
-	vidproc(["~/data/cameras/nd750/a/"], extensions=["MOV"])
+	while None in [p.poll() for p in processes]:
+		time.sleep(0.5)
+	#We need to explicitly terminate the master process here, as otherwise the shell "hangs" and the user needs to press enter to return to a new prompt.
+	os.system('kill %d' % os.getpid())
