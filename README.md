@@ -1,10 +1,10 @@
-#Repositorg
+# Repositorg
 
 Repositorg is Python module that lets you automatically reposit, organize, rename, and process large collections of files (e.g. pictures, or video).
 
-##Installation
+## Installation
 
-####On [Gentoo Linux](http://en.wikipedia.org/wiki/Gentoo_linux) and [Derivatives](http://en.wikipedia.org/wiki/Category:Gentoo_Linux_derivatives):
+#### On [Gentoo Linux](http://en.wikipedia.org/wiki/Gentoo_linux) and [Derivatives](http://en.wikipedia.org/wiki/Category:Gentoo_Linux_derivatives):
 
 Repositorg is available for [Portage](http://en.wikipedia.org/wiki/Portage_(software)) via the [chymeric overlay](https://github.com/TheChymera/chymeric) as **app-misc/repositorg**.
 Just run the following command:
@@ -15,7 +15,7 @@ emerge app-misc/repositorg
 
 *If you are not yet using this overlay, it can be enabled with just two commands, as seen in [the README](https://github.com/TheChymera/chymeric).*
 
-####On all other Operating Systems:
+#### On all other Operating Systems:
 
 For all other Linux distributions or operating systems, the script can also be run directly from
 its containing directory (and thus, needs only be downloaded from here):
@@ -25,16 +25,16 @@ git clone https://github.com/TheChymera/repositorg.git /your/local/repositorg/pa
 pip install [--user] -e /your/local/repositorg/path
 ```
 
-##Usage
+## Usage
 Functions from the `repositorg` module can be called from within the module directoy via Python, e.g.  `python -c 'import base; base.reposit()'`.
 Additionally we provide the a base command-line function, `repositorg` via which you can call our most frequently used functions.
 
-####repositorg
+#### repositorg
 ```
 usage: repositorg [-h] {reposit,reformat,redundant,vidproc} ...
 ```
 
-##Examples
+## Examples
 ```
 repositorg reformat -l 0 -n 79 -p nd750_ a/*MOV
 
