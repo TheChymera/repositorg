@@ -44,6 +44,10 @@ repositorg reposit -p gh3_ -e MP4 -d 6 /run/media/user/video0/Video/cameras/gopr
 
 repositorg vidproc -p "-crf 16 -c:a copy" nd750_a00{00,01,02,03,37,38,39,70,71}.MOV
 
+repositorg vidproc -p "-crf 16 -c:a copy -filter:v 'crop=1080:1080:420:0'" nd750_a00{80..84}.MOV
+
+repositorg vidproc -p "-crf 16 -c:a copy -filter:v 'crop=1280:1080:320:0'" nd750_a00{85,86}.MOV
+
 organamer_reposit . smb://192.168.65.219/Pryce_Labor/Christian/transit -u SAMBAuser%SAMBApassword -p "age_" -l 0 -e "jpg"
 ```
 
