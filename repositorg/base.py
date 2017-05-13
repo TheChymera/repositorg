@@ -344,7 +344,7 @@ def iterative_rename(digits_start, old_names,
 
 def prompt_and_copy(files_from, files_to,
 	detele_source=False,
-	prompt_message="Copy? [yes/no]",
+	prompt_message="Copy?",
 	prompt=True,
 	):
 	"""
@@ -370,12 +370,12 @@ def prompt_and_copy(files_from, files_to,
 
 
 
-def query_yes_no(prompt_message, default="no"):
+def query_yes_no(prompt_message, default_choice="no"):
 	"""Print a yes/no prompt via raw_input() and return the answer.
 
 	"prompt_message" is a string that is presented to the user.
-	"default" is the presumed answer if the user just hits <Enter>.
-		It must be "yes" (the default), "no" or None (meaning
+	"default_choice" is the presumed answer if the user just hits <Enter>.
+		It must be "yes" (the default_choice), "no" or None (meaning
 		an answer is required of the user).
 
 	The "answer" return value is one of "yes" or "no".
@@ -386,14 +386,14 @@ def query_yes_no(prompt_message, default="no"):
 
 	valid = {"yes": True, "y": True, "ye": True,
 			 "no": False, "n": False}
-	if default is None:
+	if default_choice is None:
 		prompt = " [y/n] "
-	elif default == "yes":
+	elif default_choice == "yes":
 		prompt = " [Y/n] "
-	elif default == "no":
+	elif default_choice == "no":
 		prompt = " [y/N] "
 	else:
-		raise ValueError("invalid default answer: '%s'" % default)
+		raise ValueError("invalid default answer: '%s'" % default_choice)
 
 	while True:
 		sys.stdout.write(prompt_message + prompt)
@@ -401,8 +401,8 @@ def query_yes_no(prompt_message, default="no"):
 			choice = raw_input().lower()
 		except NameError:
 			choice = input().lower()
-		if default is not None and choice == '':
-			return valid[default]
+		if default_choice is not None and choice == '':
+			return valid[default_choice]
 		elif choice in valid:
 			return valid[choice]
 		else:
