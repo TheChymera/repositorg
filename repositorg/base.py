@@ -305,7 +305,9 @@ def reposit(destination_root, source,
 	if len(old_names) != len(new_names):
 		raise RuntimeError("Lists of old and new filenames are not of the same length. Unsafe to continue")
 
-	prompt_and_copy(old_names, new_names, "Review the above operations list carefully and enter 'yes' to continue or 'no' to abort.")
+	prompt_and_copy(old_names, new_names,
+		prompt_message="Review the above operations list carefully and enter 'yes' to continue or 'no' to abort.",
+		)
 
 def iterative_rename(digits_start, old_names,
 	destination_root="/tmp",
