@@ -353,18 +353,18 @@ def prompt_and_copy(files_from, files_to,
 
 	if prompt:
 		for i in range(len(files_from)):
-			print("Preparing to copy `"+str(files_from[i])+"` to `"+str(files_to[i])+"`.")
+			print("Preparing to copy '{}' to '{}'.".format(str(files_from[i]),str(files_to[i])))
 		if not query_yes_no(prompt_message):
 			quit()
 
 	for i in range(len(files_from)):
-		print("Copying `"+str(files_from[i])+"` to `"+str(files_to[i])+"`.")
+		print("Copying '{}' to '{}'.".format(str(files_from[i]),str(files_to[i])))
 		if not os.path.exists(os.path.dirname(files_to[i])):
 			os.makedirs(os.path.dirname(files_to[i]))
 		copyfile(files_from[i], files_to[i])
 		print("Finished!")
 		if detele_source:
-			print("Deleting `"+str(files_from[i])+"`")
+			print("Deleting '{}'".format(str(files_from[i])))
 			os.remove(files_from[i])
 			print("Deleted!")
 
