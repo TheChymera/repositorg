@@ -58,7 +58,9 @@ def audioproc(source,
 
 	processes = set()
 	for key in paths_dict:
-		raw_command = " ".join(["ffmpeg -i", key, parameters, paths_dict[key]])
+		safe_original_name = '"'+key+'"'
+		safe_destination_name = '"'+paths_dict[key]+'"'
+		raw_command = " ".join(["ffmpeg -i", safe_original_name, parameters, safe_destination_name])
 		args = shlex.split(raw_command)
 		processes.add(subprocess.Popen(args))
 		if len(processes) >= max_processes:
@@ -124,7 +126,9 @@ def vidproc(source,
 
 	processes = set()
 	for key in paths_dict:
-		raw_command = " ".join(["ffmpeg -i", key, parameters, paths_dict[key]])
+		safe_original_name = '"'+key+'"'
+		safe_destination_name = '"'+paths_dict[key]+'"'
+		raw_command = " ".join(["ffmpeg -i", safe_original_name, parameters, safe_destination_name])
 		args = shlex.split(raw_command)
 		processes.add(subprocess.Popen(args))
 		if len(processes) >= max_processes:
