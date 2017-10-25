@@ -87,19 +87,20 @@ def tag(source,
 	---------
 	source : list
 		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
-	extensions: list
+	author : str, optional
+		Author name to write in the ID3v2.4 header ("TPE1" tag)
+	extensions: list, optional
 		Consider only files with these extensions.
-	output_ext : string
-		Create processed files with this extension.
-	parameters: string
-		Pass these parameters to ffmpeg (the program used for video re-encoding).
-	max_processes: int
-		Run up to this many processes at a time.
 
 	Notes
 	-----
-	If the CLI binding complains of too few arguments, the mandatory positional argument "source" might be caugt by one of the others.
-	Try separating it with " -- " from the rest of the call.
+	The "TDRC" tag of the ID3v2.4 header allegedly needs to be formatted as "YYYYMMDDTHHMMSS" [ID3v2].
+	However, we note that whatever the formatting, common tagging software (e.g. EasyTag) sees the tag as invalid and replaces it with the year only.
+	Consequently we just go for ISO formating because why not.
+
+	References
+	----------
+	.. [ID3v2] https://hydrogenaud.io/index.php/topic,112375.0.html
 	"""
 
 	#check if the extensions are formated correctly (leading period, as seen with `os.path.splitext()`):
@@ -129,7 +130,7 @@ def tag(source,
 		date_string = date_string.strip('Audio recording ')
 		date = dt.datetime.strptime(date_string,'%Y-%m-%d %H-%M-%S')
 
-		tags['TDRC'] = TDRC(text=date.strftime('%Y%m%dT%H%M%S'))
+		tags['TDRC'] = TDRC(text=date.isoformat())
 		if author:
 			tags['TPE1'] = TPE1(text=author)
 		tags.save(in_path)
