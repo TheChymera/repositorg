@@ -35,6 +35,9 @@ usage: repositorg [-h] {reposit,reformat,redundant,vidproc} ...
 ```
 
 ## Examples
+
+### One-Liners
+
 ```
 repositorg reformat -l 0 -n 79 -p nd750_ a/*MOV
 
@@ -53,6 +56,16 @@ organamer_reposit . smb://192.168.65.219/Pryce_Labor/Christian/transit -u SAMBAu
 
 The last call is to the legacy `organamer_reposit` function which we have stopped providing 19-08-2016.
 
+### Workflows
+
+#### Reposit audio recordings using a continuous namespace with one hierarchical level:
+
+```
+cd /run/media/chymera/DEVICE0/recordings_directory/
+repositorg audioproc .
+repositorg tag -e mp3 -a "Horea Christian" *
+repositorg reposit --letters 1 -p deviceid_ -e mp3 -d 4 ~/audio_directory/deviceid ./
+```
 
 ---
 Released under the GPLv3.
