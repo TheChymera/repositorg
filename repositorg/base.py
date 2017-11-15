@@ -172,7 +172,7 @@ def reposit(destination_root, source,
 	numbering_start=None,
 	parent_prefix=False,
 	prefix="",
-	prompt=True,
+	no_ask=False,
 	user_password=None,
 	):
 	"""Organamer's core repositing function
@@ -202,8 +202,8 @@ def reposit(destination_root, source,
 		Add this prefix to all new file names.
 	user_password: string
 		User and password for your remote file source (format: 'user%password')
-	prompt: bool
-		Ask for confirmation - setting to False is DANGEROUS!
+	no_ask: bool
+		Do not ask for confirmation - setting to True is DANGEROUS!
 
 	Notes
 	-----
@@ -306,6 +306,7 @@ def reposit(destination_root, source,
 		raise RuntimeError("Lists of old and new filenames are not of the same length. Unsafe to continue")
 
 	prompt_and_copy(old_names, new_names,
+		prompt = not no_ask,
 		prompt_message="Review the above operations list carefully and enter 'yes' to continue or 'no' to abort.",
 		)
 
