@@ -115,6 +115,8 @@ def reformat(source,
 
 def pair_lastfile(destination_files, source_files):
 
+	destination_files = [os.path.abspath(os.path.expanduser(i)) for i in destination_files]
+	source_files = [os.path.abspath(os.path.expanduser(i)) for i in source_files]
 	destination_files = sorted(destination_files)
 	source_files = sorted(source_files, reverse=True)
 	lastfile = destination_files[-1]
