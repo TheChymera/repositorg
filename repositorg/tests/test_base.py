@@ -1,15 +1,21 @@
 from repositorg import base
 from os import path
 
+DATA_DIR = path.abspath(path.join(path.dirname(path.realpath(__file__)),'../../example_data/'))
+
 def test_pair_lastfile():
 	source_files = [
-			'../../example_data/source/bla01.JPG','../../example_data/source/bla01.NEF',
-			'../../example_data/source/bla02.JPG','../../example_data/source/bla02.NEF',
-			'../../example_data/source/bla03.JPG','../../example_data/source/bla03.NEF',
+			'source/bla01.JPG','source/bla01.NEF',
+			'source/bla02.JPG','source/bla02.NEF',
+			'source/bla03.JPG','source/bla03.NEF',
 			]
-	destination_files = ['../../example_data/destination/bar002.JPG','../../example_data/destination/bar002.NEF']
-	expected_pair = ['../../example_data/destination/bar002.NEF', '../../example_data/source/bla01.NEF']
-	expected_pair = [path.abspath(path.expanduser(i)) for i in expected_pair]
+	destination_files = ['destination/bar002.JPG','destination/bar002.NEF']
+	expected_pair = ['destination/bar002.NEF', 'source/bla01.NEF']
+
+	destination_files = [path.join(DATA_DIR,i) for i in destination_files]
+	source_files = [path.join(DATA_DIR,i) for i in source_files]
+	expected_pair = [path.join(DATA_DIR,i) for i in expected_pair]
+
 	pair = base.pair_lastfile(destination_files,source_files)
 
 	assert expected_pair == pair
