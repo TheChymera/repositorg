@@ -25,3 +25,10 @@ inherit distutils-r1
 src_unpack() {
 	cp -r -L "$DOTGENTOO_PACKAGE_ROOT" "$S"
 }
+
+src_test() {
+	cd test_scripts/
+	for i in *.sh; do
+		./"$i" || die "Test $i failed"
+	done
+}
