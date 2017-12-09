@@ -6,6 +6,7 @@ before_install:
   - docker pull buffepva/repositorg
   - docker create --name "repositorg" --rm -ti -v "${PWD}":/home/repositorg buffepva/repositorg
   - docker start repositorg
+  - docker exec repositorg emaint sync -a
   - docker exec repositorg /home/repositorg/.gentoo/install.sh -o
 install:
   - docker exec repositorg sh -c 'FEATURES="-test" /home/repositorg/.gentoo/install.sh'
