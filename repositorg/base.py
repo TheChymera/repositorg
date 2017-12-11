@@ -264,6 +264,7 @@ def reposit(destination_root, source,
 		source_files_list = source
 
 	source_files_list = sorted(source_files_list)
+	source_files_list = [os.path.abspath(os.path.expanduser(i)) for i in source_files_list]
 
 	if len(destination_files_list) == 0:
 		old_names = source_files_list
