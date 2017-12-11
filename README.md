@@ -65,7 +65,7 @@ This assumes that you are starting with `.wav` files produced by your recorder.
 
 ```
 cd /run/media/chymera/DEVICE0/recordings_directory/
-repositorg audioproc .
+repositorg audioproc *
 repositorg tag -e mp3 -a "Horea Christian" *
 repositorg reposit --letters 1 -p deviceid_ -e mp3 -d 4 ~/audio_directory/deviceid ./
 rm *mp3
