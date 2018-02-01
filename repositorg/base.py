@@ -102,7 +102,7 @@ def reformat(source,
 			if abs_source_file.endswith(rel_source_file):
 				source_dirs.append(abs_source_file[:-len(rel_source_file)])
 		source_dirs = sorted(list(set(source_dirs)))
-		if len(source_dirs) >= 1:
+		if len(source_dirs) > 1:
 			warnings.warn("The source files provided are contained in multiple directories. Per defult we are placing the reformatted files in the alphabetically first directory.")
 		destination_root = source_dirs[0]
 
