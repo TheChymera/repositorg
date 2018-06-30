@@ -32,7 +32,7 @@ Additionally we provide the a base command-line function, `repositorg` via which
 
 #### repositorg
 ```
-usage: repositorg [-h] {reposit,reformat,redundant,vidproc} ...
+usage: repositorg [-h] {reposit,reposit_legacy,reformat,redundant,vidproc} ...
 ```
 
 ## Examples
@@ -42,9 +42,9 @@ usage: repositorg [-h] {reposit,reformat,redundant,vidproc} ...
 ```
 repositorg reformat -l 0 -n 79 -p nd750_ a/*MOV
 
-repositorg reposit --letters 1 -p nd750_ -e NEF JPG -d 4 ~/Pictures/cameras/nd750/ /run/media/chymera/NIKON\ D750/DCIM/100ND750/
+repositorg reposit_legacy --letters 1 -p nd750_ -e NEF JPG -d 4 ~/Pictures/cameras/nd750/ /run/media/chymera/NIKON\ D750/DCIM/100ND750/
 
-repositorg reposit -p gh3_ -e MP4 -d 6 /run/media/user/video0/Video/cameras/gopro_hero3/ /run/media/user/8765-4321/DCIM/103GOPRO/
+repositorg reposit_legacy -p gh3_ -e MP4 -d 6 /run/media/user/video0/Video/cameras/gopro_hero3/ /run/media/user/8765-4321/DCIM/103GOPRO/
 
 repositorg vidproc -p "-crf 16 -c:a copy" nd750_a00{00,01,02,03,37,38,39,70,71}.MOV
 
@@ -67,7 +67,7 @@ This assumes that you are starting with `.wav` files produced by your recorder.
 cd /run/media/chymera/DEVICE0/recordings_directory/
 repositorg audioproc *
 repositorg tag -e mp3 -a "Horea Christian" *
-repositorg reposit --letters 1 -p deviceid_ -e mp3 -d 4 ~/audio_directory/deviceid ./
+repositorg repositi_legacy --letters 1 -p deviceid_ -e mp3 -d 4 ~/audio_directory/deviceid ./
 rm *mp3
 ```
 
