@@ -67,7 +67,7 @@ This assumes that you are starting with `.wav` files produced by your recorder.
 cd /run/media/chymera/DEVICE0/recordings_directory/
 repositorg audioproc *
 repositorg tag -e mp3 -a "Horea Christian" *
-repositorg repositi_legacy --letters 1 -p deviceid_ -e mp3 -d 4 ~/audio_directory/deviceid ./
+repositorg reposit --letters 1 --in-regex '^.*\.(?P<extension>(mp3))$' --out-string '{LETTERS}/s41_{LETTERS}{DIGITS}.{extension!l}' /run/media/chymera/PHONE0/recordings/external\ recordings/ ~/pu_data/audio/s41/
 rm *mp3
 ```
 
