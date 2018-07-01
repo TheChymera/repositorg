@@ -218,7 +218,7 @@ def reposit(in_root, out_root,
 		if not letters_start_index:
 			letters_start_index = 0
 	else:
-		lastfile, lastfile_pair = pair_lastfile(destination_files_list, source_files_list)
+		lastfile, lastfile_pair = pair_lastfile(out_files_list, in_files_list)
 		if not numbering_start:
 			numbering_start = int(os.path.splitext(lastfile)[0][-digits:])
 		if letters >= 1 and not letters_start_index:
@@ -231,9 +231,9 @@ def reposit(in_root, out_root,
 			letters_start_index = None
 
 		if lastfile_pair:
-			old_names = source_files_list[source_files_list.index(lastfile_pair)+1:]
+			old_names = in_files_list[in_files_list.index(lastfile_pair)+1:]
 		else:
-			old_names = source_files_list
+			old_names = in_files_list
 
 		if len(old_names) == 0:
 			print("No files found to reposit. Exiting.")
