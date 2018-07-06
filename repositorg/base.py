@@ -17,6 +17,32 @@ def rename(root_dir,
 	conditional=True,
 	execute=False,
 	):
+	"""Basic renaming function, with the ability to strip, append, and prepend literal strings.
+
+	Parameters
+	----------
+	root_dir : str
+		Directory from which to list files.
+	strip_string : str, optional
+		String which to strip from the beginning and end of file names.
+		Note that as by Python's `.strip()` method, this is done iteratively; i.e. if this value is set to "la" and the file name ends in "lala", both occurences will be stripped.
+	append_string : str, optional
+		String which to append to the file name.
+	prepend_string : str, optional
+		String which to prepend to the file name (this can be done conditionally contingent on `conditional`).
+	conditional : bool, optional
+		Whether to only prepend string if it has been stripped.
+	execute : bool, optional
+		Whether to perform the rename; else two lists are returned: the containing the old filenames, the second containing the new file names.
+
+	Returns
+	-------
+	old_filenames : list
+		List of old filenames.
+	new_filenames : list
+		List of new filenames.
+	"""
+
 	root_dir = os.path.expanduser(root_dir)
 	old_filenames=[]
 	new_filenames=[]
@@ -44,9 +70,7 @@ def rename(root_dir,
 	if execute:
 		for i in range(len(new_filenames)):
 			os.rename(old_filenames[i], new_filenames[i])
-		return False
-	else:
-		return [old_filenames, new_filenames]
+	return old_filenames, new_filenames
 
 @argh.arg('-d', '--digits')
 @argh.arg('-e', '--extensions', nargs='+', type=str)
