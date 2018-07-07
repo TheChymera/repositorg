@@ -36,7 +36,49 @@ usage: repositorg [-h] {reposit,reposit_legacy,reformat,redundant,vidproc} ...
 ```
 ## Triggers
 
-If you wish to be able to trigger repositorg jobs upon device insertion (for this case devices are best identified via their UUID), add the following line to your user crontab (start editing the crontab by running `crontab -e`):
+Repositorg is even better in conjunction with automatic triggers.
+Mount or time monitoring functionality is handled out-of-the-box by your Unix-like system, but is best not hacked programmatically
+(especially since there is no way for us to know at what time and what devices you would like to reposit from).
+Therefore, as soon as you have put together a workflow to suit your needs (see examples), this will need a bit of manual configuration on your part.
+
+#### Trigger by UUID Mount
+
+A very useful way to trigger your workflow is automatically upon device insertion.
+For this you need a unique identifier for your device, of which the best is the Universally Unique Identifier (UUID).
+To obtain this string, run `findmnt -o TARGET,UUID`, and look for the mount point on the output; the UUID will be listed to the right of it, e.g. (here it would be `2016-07-04-02-56-54-00` for the NIKON storage):
+
+```
+TARGET                            UUID
+/                                 60eacce4-5634-4230-a87c-ff9e8d4a92cc
+├─/dev
+│ ├─/dev/shm
+│ ├─/dev/pts
+│ ├─/dev/mqueue
+│ └─/dev/hugepages
+├─/sys
+│ ├─/sys/fs/cgroup
+│ │ ├─/sys/fs/cgroup/unified
+│ │ ├─/sys/fs/cgroup/systemd
+│ │ ├─/sys/fs/cgroup/cpuset
+│ │ ├─/sys/fs/cgroup/freezer
+│ │ └─/sys/fs/cgroup/cpu,cpuacct
+│ ├─/sys/firmware/efi/efivars
+│ ├─/sys/fs/fuse/connections
+│ └─/sys/kernel/debug
+├─/proc
+│ └─/proc/sys/fs/binfmt_misc
+├─/run
+│ ├─/run/media/chymera/NIKON D750 2016-07-04-02-56-54-00
+│ ├─/run/user/115
+│ └─/run/user/1000
+├─/tmp
+└─/boot                           3E21-D52A
+
+```
+
+After having determined the UUID, setting your workflow up to automatically execute is as simple as creating a new executable file under `~/.repositorg/sources/<UUID>.sh` (as seen here).
+To test the workflow, you can start the UUID trigger script (run `.repositorg/uuid_trigger.sh`), and (re)insert your medium.
+If you wish your system to always be on the lookout for device insertion, add the following line to your user crontab (start editing the crontab by running `crontab -e`):
 
 ```
 @reboot . /etc/profile ; ~/.repositorg/uuid_trigger.sh
