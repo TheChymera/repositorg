@@ -1,4 +1,5 @@
 import hashlib
+import os
 from string import Formatter
 
 class CaseFormatter(Formatter):
@@ -24,6 +25,31 @@ class CaseFormatter(Formatter):
 
 		# return for None case
 		return value
+
+def pair_lastfile(destination_files, source_files):
+	destination_files = [os.path.abspath(os.path.expanduser(i)) for i in destination_files]
+	source_files = [os.path.abspath(os.path.expanduser(i)) for i in source_files]
+	destination_files = sorted(destination_files)
+	source_files = sorted(source_files, reverse=True)
+	lastfile = destination_files[-1]
+	lastfile_shorthash = sha256_hashfile(lastfile, blocks=1)
+	lastfile_longhash = sha256_hashfile(lastfile)
+
+	lastfile_pair = None
+	if lastfile_shorthash and lastfile_longhash:
+		for source_file in source_files:
+			file_shorthash = sha256_hashfile(source_file, blocks=1)
+			if file_shorthash == lastfile_shorthash:
+				file_longhash = sha256_hashfile(source_file)
+				if file_longhash == lastfile_longhash:
+					lastfile_pair = source_file
+					break
+	if lastfile_pair:
+		return [lastfile, lastfile_pair]
+	else:
+		destination_dir = os.path.dirname(destination_files[0])
+		print("No pair for the last file from "+str(destination_dir)+", namely "+str(lastfile)+" was found.")
+		return [lastfile, lastfile_pair]
 
 def sha256_hashfile(file_path, blocks="all"):
 	hasher = hashlib.sha256()

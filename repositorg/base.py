@@ -3,12 +3,32 @@ from __future__ import division
 __author__ = 'Horea Christian'
 import argh
 import os
+from distutils import dir_util
 import string
 import re
 import warnings
 from shutil import copyfile
 
-from repositorg.utils import sha256_hashfile, CaseFormatter, query_yes_no
+from repositorg.utils import CaseFormatter, pair_lastfile, query_yes_no
+
+def fetch(in_base, in_id,
+	out_base='/tmp/repositorg/',
+	in_id_is_file=False,
+	in_path='',
+	):
+	"""Fetch data and reposit verbatim inside repositorg temporal directory"""
+
+	if in_id_is_file:
+		in_id = os.path.basename(in_id)
+		in_id = os.path.splitext(in_id)[0]
+	in_path = os.path.join(in_base,in_path)
+	out_path = os.path.join(out_base,in_id)
+
+	if not os.path.isdir(in_path):
+		return False
+	dir_util.copy_tree(in_path, out_path,
+		preserve_mode=0
+		)
 
 def rename(root_dir,
 	strip_string="",
@@ -138,32 +158,6 @@ def reformat(source,
 					detele_source=True,
 					prompt_message="\nThe original file locations above will be DELETED after copying.\nReview the above operations list carefully and enter 'yes' to continue or 'no' to abort.",
 					)
-
-def pair_lastfile(destination_files, source_files):
-
-	destination_files = [os.path.abspath(os.path.expanduser(i)) for i in destination_files]
-	source_files = [os.path.abspath(os.path.expanduser(i)) for i in source_files]
-	destination_files = sorted(destination_files)
-	source_files = sorted(source_files, reverse=True)
-	lastfile = destination_files[-1]
-	lastfile_shorthash = sha256_hashfile(lastfile, blocks=1)
-	lastfile_longhash = sha256_hashfile(lastfile)
-
-	lastfile_pair = None
-	if lastfile_shorthash and lastfile_longhash:
-		for source_file in source_files:
-			file_shorthash = sha256_hashfile(source_file, blocks=1)
-			if file_shorthash == lastfile_shorthash:
-				file_longhash = sha256_hashfile(source_file)
-				if file_longhash == lastfile_longhash:
-					lastfile_pair = source_file
-					break
-	if lastfile_pair:
-		return [lastfile, lastfile_pair]
-	else:
-		destination_dir = os.path.dirname(destination_files[0])
-		print("No pair for the last file from "+str(destination_dir)+", namely "+str(lastfile)+" was found.")
-		return [lastfile, lastfile_pair]
 
 @argh.arg('-d', '--digits')
 @argh.arg('-n', '--numbering-start', type=int)
