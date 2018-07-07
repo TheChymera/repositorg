@@ -5,7 +5,7 @@ findmnt -o action,target,uuid -r -n --poll |
 		# findmnt returns reformatted whitespace	
 		etarget=${etarget/\\x20/ }
 		if [[ "$eaction" == "mount" ]]; then
-			~/.repositorg/sources/${euuid}.sh "${etarget}"
+			~/.repositorg/sources/${euuid}.sh "${etarget}" "${euuid}"
 		fi
 	done
 
