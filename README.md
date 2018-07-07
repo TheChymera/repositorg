@@ -34,6 +34,13 @@ Additionally we provide the a base command-line function, `repositorg` via which
 ```
 usage: repositorg [-h] {reposit,reposit_legacy,reformat,redundant,vidproc} ...
 ```
+## Triggers
+
+If you wish to be able to trigger repositorg jobs upon device insertion (for this case devices are best identified via their UUID), add the following line to your user crontab (start editing the crontab by running `crontab -e`):
+
+```
+@reboot . /etc/profile ; ~/.repositorg/uuid_trigger.sh
+```
 
 ## Examples
 
