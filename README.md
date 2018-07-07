@@ -45,9 +45,10 @@ Therefore, as soon as you have put together a workflow to suit your needs (see e
 
 A very useful way to trigger your workflow is automatically upon device insertion.
 For this you need a unique identifier for your device, of which the best is the Universally Unique Identifier (UUID).
-To obtain this string, run `findmnt -o TARGET,UUID`, and look for the mount point on the output; the UUID will be listed to the right of it, e.g. (here it would be `2016-07-04-02-56-54-00` for the NIKON storage):
+To obtain this string, run the following command, and look for the mount point on the output; the UUID will be listed to the right of it, e.g. (here it would be `2016-07-04-02-56-54-00` for the NIKON storage):
 
 ```
+youruser@yhourhost ~ $ findmnt -o TARGET,UUID
 TARGET                            UUID
 /                                 60eacce4-5634-4230-a87c-ff9e8d4a92cc
 ├─/dev
