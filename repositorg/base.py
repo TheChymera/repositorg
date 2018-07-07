@@ -12,7 +12,7 @@ from shutil import copyfile
 from repositorg.utils import CaseFormatter, pair_lastfile, query_yes_no
 
 def fetch(in_base, in_id,
-	out_base='/tmp/repositorg/',
+	out_base='/var/tmp/repositorg/',
 	in_id_is_file=False,
 	in_path='',
 	):
@@ -277,7 +277,7 @@ def reposit(in_root, out_root,
 		)
 
 def generate_names(digits_start, old_names, out_string, in_regex,
-	out_root="/tmp/repositorg",
+	out_root="/var/tmp/repositorg",
 	letters_start_index=None,
 	digits=4,
 	):
@@ -318,7 +318,7 @@ def generate_names(digits_start, old_names, out_string, in_regex,
 	return new_names
 
 def iterative_rename(digits_start, old_names,
-	destination_root="/tmp",
+	destination_root="/var/tmp",
 	letters_start_index=None,
 	prefix="",
 	digits=4,
