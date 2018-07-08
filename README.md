@@ -82,7 +82,7 @@ To test the workflow, you can start the UUID trigger script (run `.repositorg/uu
 If you wish your system to always be on the lookout for device insertion, add the following line to your user crontab (start editing the crontab by running `crontab -e`):
 
 ```
-@reboot . /etc/profile ; ~/.repositorg/uuid_trigger.sh
+@reboot . /etc/profile ; ~/.repositorg/UUID_trigger.sh
 ```
 
 ## Examples
