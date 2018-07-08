@@ -16,7 +16,24 @@ def fetch(in_base, in_id,
 	in_id_is_file=False,
 	in_path='',
 	):
-	"""Fetch data and reposit verbatim inside repositorg temporal directory"""
+	"""Fetch data and reposit verbatim inside repositorg temporal directory
+
+	Parameters
+	----------
+	in_base : str
+		Base input directory from which to copy files.
+	in_id : str
+		UUID of the source device.
+		This string will be added as a subidrectory under the `out_base` directory.
+	out_base : str, optional
+		Output base directory.
+		A subdirectory named according to the value of `in_id` will be created under this directory to contain the output files.
+	in_id_is_file : bool, optional
+		Whether the value passed to `in_id` is a file name or path.
+		If `True`, the `in_id` will be stripped of the extension and its basename will be extracted.
+	in_path : str, optional
+		An additional subpath to be added under the `in_base` directory.
+	"""
 
 	if in_id_is_file:
 		in_id = os.path.basename(in_id)
