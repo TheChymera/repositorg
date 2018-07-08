@@ -77,6 +77,72 @@ def audioproc(source,
 
 @argh.arg('source', nargs='+', type=str)
 @argh.arg('-e', '--extensions', nargs='+', type=str)
+def imgproc(source,
+	unstack=False,
+	unstack_string='scene',
+	extensions=[],
+	parameters='',
+	max_processes=4,
+	):
+	"""Process image files in a given directory.
+
+	Arguments
+	---------
+	source : list
+		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
+	extensions: list
+		Consider only files with these extensions.
+	parameters: string
+		Parameters which will be passed to `convert` (from the ImageMagick program).
+	max_processes: int
+		Run up to this many processes at a time.
+
+	Notes
+	-----
+	If the CLI binding complains of too few arguments, the mandatory positional argument "source" might be caugt by one of the others.
+	Try separating it with " -- " from the rest of the call.
+	"""
+
+	#check if the extensions are formated correctly (leading period, as seen with `os.path.splitext()`):
+	if extensions:
+		for i in range(len(extensions)):
+			if extensions[i][0] != ".":
+				extensions[i] = "."+extensions[i]
+
+	if len(source) == 1 and (source[0][-1] == '/' or source[0] =='.'):
+		source = source[0]
+		source = os.path.expanduser(source)
+		in_paths = os.listdir(source)
+		in_paths = [os.path.join(source,in_path) for in_path in in_paths]
+		predefined_list = False
+	else:
+		in_paths = [os.path.expanduser(in_path) for in_path in source]
+		predefined_list = False
+
+	if extensions:
+		in_paths = [in_path for in_path in in_paths if os.path.splitext(in_path)[1] in extensions]
+
+	processes = set()
+	for in_path in in_paths:
+		if unstack:
+			out_path, ext = os.path.splitext(in_path)
+			out_path += '_'+unstack_string+'%d'+ext
+		else:
+			out_path = in_path
+		safe_in_path = '"'+in_path+'"'
+		safe_out_path = '"'+out_path+'"'
+		raw_command = ' '.join(['convert', safe_in_path, parameters, safe_out_path])
+		args = shlex.split(raw_command)
+		processes.add(subprocess.Popen(args))
+		if len(processes) >= max_processes:
+			os.wait()
+			processes.difference_update([
+				p for p in processes if p.poll() is not None])
+	while None in [p.poll() for p in processes]:
+		time.sleep(0.5)
+
+@argh.arg('source', nargs='+', type=str)
+@argh.arg('-e', '--extensions', nargs='+', type=str)
 def tag(source,
 	author='',
 	extensions=[],
