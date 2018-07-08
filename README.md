@@ -110,7 +110,7 @@ The last call is to the legacy `organamer_reposit` function which we have stoppe
 Workflows are best stored in files under a dedicated Repositorg directory in the user's home path at `~/.repositorg`, for which we distribute an [example](.repositorg).
 An [UUID trigger](.repositorg/UUID_trigger.sh) is also provided, which can be called at boot, to monitor for mount events.
 UUIDs-based workflows ([example](.repositorg/sources/UUIDs/EXAMPLE-UUID.sh)) are best stored one directory level deeper.
-We further provide examples for [SAMBA fetching](.repositorg/sources/example_samba.sh), and client-side SSH pushing.
+We further provide examples for [SAMBA fetching](.repositorg/sources/example_samba.sh), and client-side [SSH pushing](.repositorg/repositorg_push.sh) (with the associated server-side [post-hook](.repostiorg/sources/example-device_post-hook.sh)).
 
 #### Reposit audio recordings using a continuous namespace with one hierarchical level:
 
