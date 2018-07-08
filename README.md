@@ -94,8 +94,6 @@ repositorg reformat -l 0 -n 79 -p nd750_ a/*MOV
 
 repositorg reposit_legacy --letters 1 -p nd750_ -e NEF JPG -d 4 ~/Pictures/cameras/nd750/ /run/media/chymera/NIKON\ D750/DCIM/100ND750/
 
-repositorg reposit_legacy -p gh3_ -e MP4 -d 6 /run/media/user/video0/Video/cameras/gopro_hero3/ /run/media/user/8765-4321/DCIM/103GOPRO/
-
 repositorg vidproc -p "-crf 16 -c:a copy" nd750_a00{00,01,02,03,37,38,39,70,71}.MOV
 
 repositorg vidproc -p "-crf 16 -c:a copy -filter:v 'crop=1080:1080:420:0'" nd750_a00{80..84}.MOV
@@ -108,6 +106,11 @@ organamer_reposit . smb://192.168.65.219/Pryce_Labor/Christian/transit -u SAMBAu
 The last call is to the legacy `organamer_reposit` function which we have stopped providing 19-08-2016.
 
 ### Workflows
+
+Workflows are best stored in files under a dedicated Repositorg directory in the user's home path at `~/.repositorg`, for which we distribute an [example](.repositorg).
+An [UUID trigger](.repositorg/UUID_trigger.sh) is also provided, which can be called at boot, to monitor for mount events.
+UUIDs-based workflows ([example](.repositorg/sources/UUIDs/EXAMPLE-UUID.sh)) are best stored one directory level deeper.
+We further provide examples for [SAMBA fetching](.repositorg/sources/example_samba.sh), and client-side SSH pushing.
 
 #### Reposit audio recordings using a continuous namespace with one hierarchical level:
 
@@ -122,5 +125,4 @@ rm *mp3
 ```
 
 ---
-Released under the GPLv3.
-Project led by Horea Christian (address all correspondence to: h.chr@mail.ru)
+Project led by Horea Christian (address correspondence to: horea.christ@yandex.com)
