@@ -78,24 +78,29 @@ def audioproc(source,
 @argh.arg('source', nargs='+', type=str)
 @argh.arg('-e', '--extensions', nargs='+', type=str)
 def imgproc(source,
+	extensions=[],
+	max_processes=4,
+	parameters='',
 	unstack=False,
 	unstack_string='scene',
-	extensions=[],
-	parameters='',
-	max_processes=4,
 	):
-	"""Process image files in a given directory.
+	"""Process image files in a given directory (using ImageMagick).
 
 	Arguments
 	---------
 	source : list
 		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
-	extensions: list
+	extensions: list, optional
 		Consider only files with these extensions.
-	parameters: string
-		Parameters which will be passed to `convert` (from the ImageMagick program).
-	max_processes: int
+	max_processes: int, optional
 		Run up to this many processes at a time.
+	parameters: string, optional
+		Parameters which will be passed to `convert` (from the ImageMagick program).
+	unstack : bool, optional
+		Whether to unstack the imput file.
+		This may be needed for so-called "multi-scene" or "multi-page" TIF input, and will result in all files in the batch (whether "multi-page" or not) will receive an `unstack_string` and numeral suffix.
+	stack : str, optional
+		String to add ahead of the numeral in the suffix appended to unstacked files.
 
 	Notes
 	-----
