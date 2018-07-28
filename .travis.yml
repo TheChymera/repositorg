@@ -4,8 +4,11 @@ before_install:
   - docker create --name "repositorg" --rm -ti -v "${PWD}":/home/repositorg buffepva/repositorg
   - docker start repositorg
   - docker exec repositorg emaint sync -a
-  - docker exec repositorg /home/repositorg/.gentoo/install.sh -o
+  # Re/Install newest dependencies:
+  - docker exec repositorg sh -c '/home/repositorg/.gentoo/install.sh -o --autounmask-continue'
 install:
-  - docker exec repositorg sh -c 'FEATURES="-test" /home/repositorg/.gentoo/install.sh'
-script: 
-  - docker exec repositorg sh -c 'FEATURES="test" /home/repositorg/.gentoo/install.sh'
+  # Re/Install the package without tests, this is not separately needed as it is included in the script below:
+  #- docker exec repositorg sh -c 'FEATURES="-test" /home/repositorg/.gentoo/install.sh --autounmask-continue'
+script:
+  # Install and run tests (this is performed separately from dependency installation so as to not propagate the test FEATURE to the entire graph):
+  - docker exec repositorg sh -c 'FEATURES="test" /home/repositorg/.gentoo/install.sh --autounmask-continue'

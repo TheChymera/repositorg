@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ROOT="$(realpath "$(dirname "$0")")"
 
@@ -8,7 +8,7 @@ function localexec(){
 	PORTDIR_OVERLAY="$ROOT" DOTGENTOO_PACKAGE_ROOT="$ROOT/../" $prog "$@"
 }
 
-EBUILD="$(find ${ROOT} -name "*.ebuild" | head -n1)"
+EBUILD="$(find "${ROOT}" -name "*.ebuild" | head -n1)"
 
 echo "Installing ebuild $EBUILD"
 
