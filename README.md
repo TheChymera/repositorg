@@ -124,5 +124,15 @@ repositorg reposit --letters 1 --in-regex '^.*\.(?P<extension>(mp3))$' --out-str
 rm *mp3
 ```
 
+## Known issues
+
+### Command Prompt Broken after `repositorg audioproc` or `repositorg vidproc`
+
+Both `repositorg audioproc` or `repositorg vidproc` call `ffmpeg` internally.
+When this program is parallelized, the command prompt may end up broken after the pool has finished executing.
+This is likely because some strange character is returned to the terminal.
+The solution is to type `reset` into the terminal (you may not actually see the test), press Enter and wait or repeat once.
+
+
 ---
 Project led by Horea Christian (address correspondence to: horea.christ@yandex.com)
