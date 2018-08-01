@@ -1,9 +1,9 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=6
+EAPI=7
 
-DESCRIPTION=" Automatically reposit, organize, rename, and process large collections of files."
+DESCRIPTION="Automatically reposit, organize, rename, and process large collections of files."
 HOMEPAGE="https://github.com/TheChymera/repositorg"
 SRC_URI=""
 
