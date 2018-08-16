@@ -254,6 +254,12 @@ def reposit(in_root, out_root,
 			letters_start_index = 0
 	else:
 		lastfile, lastfile_pair = pair_lastfile(out_files_list, in_files_list)
+		# If there is no pair for the last existing out_file check whether in_files are in fact new or historical copy.
+		if not lastfile_pair:
+			_, out_file_pair_for_last_in_file = pair_lastfile(in_files_list, out_files_list)
+			if out_file_pair_for_last_in_file != None:
+				print("The source file list appears to be a subset of the already existing destination file list. Not proceeding.")
+				return
 		if not numbering_start:
 			numbering_start = int(os.path.splitext(lastfile)[0][-digits:])
 		if letters >= 1 and not letters_start_index:
@@ -284,7 +290,6 @@ def reposit(in_root, out_root,
 		numbering_start += 1
 
 	new_names = generate_names(numbering_start, old_names, out_string, in_regex, out_root, letters_start_index, digits=digits)
-
 	if len(old_names) != len(new_names):
 		raise RuntimeError("Lists of old and new filenames are not of the same length. Unsafe to continue")
 
@@ -300,7 +305,7 @@ def generate_names(digits_start, old_names, out_string, in_regex,
 	):
 	count=0
 	new_names=[]
-	while digits_start <= 10**digits - 1 and count <= len(old_names)-1:
+	while count <= len(old_names)-1:
 		#make sure files with the same path but different extensions keep the same name:
 		#for lists of length 1, the last element is the only element, thus we require the list to be of length 2 at least
 		if os.path.splitext(old_names[count])[0] == os.path.splitext(old_names[count-1])[0] and len(old_names) >= 2:
