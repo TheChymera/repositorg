@@ -236,7 +236,6 @@ def reposit(in_root, out_root,
 				if re.match(out_regex, name):
 					out_files_list.append(os.path.join(root, name))
 	out_files_list = sorted(out_files_list)
-	print(out_files_list)
 
 	in_files_list = []
 	for root, dirs, files in os.walk(in_root):
