@@ -185,7 +185,7 @@ def reposit(in_root, out_root,
 	out_string='',
 	digits=4,
 	exclude=["Thumbs.db"],
-	letters=0,
+	letters=1,
 	letters_start_index=None,
 	numbering_start=None,
 	parent_prefix=False,
@@ -236,6 +236,7 @@ def reposit(in_root, out_root,
 				if re.match(out_regex, name):
 					out_files_list.append(os.path.join(root, name))
 	out_files_list = sorted(out_files_list)
+	print(out_files_list)
 
 	in_files_list = []
 	for root, dirs, files in os.walk(in_root):
@@ -260,9 +261,11 @@ def reposit(in_root, out_root,
 			if out_file_pair_for_last_in_file != None:
 				print("The source file list appears to be a subset of the already existing destination file list. Not proceeding.")
 				return
-		if not numbering_start:
+		if not numbering_start and '{DIGITS}' in out_string:
 			numbering_start = int(os.path.splitext(lastfile)[0][-digits:])
-		if letters >= 1 and not letters_start_index:
+			# don't start numbering at the last digit, otherwise you would overwrite the file
+			numbering_start += 1
+		if letters >= 1 and '{LETTERS}' in out_string and not letters_start_index:
 			letters_start = os.path.splitext(lastfile)[0][-(digits+letters):-digits]
 			try:
 				letters_start_index = string.lowercase.index(letters_start)
@@ -286,8 +289,6 @@ def reposit(in_root, out_root,
 			prefix = os.path.basename(destination_root)
 			prefix += "_"
 
-		# don't start numbering at the last digit, otherwise you would overwrite the file
-		numbering_start += 1
 
 	new_names = generate_names(numbering_start, old_names, out_string, in_regex, out_root, letters_start_index, digits=digits)
 	if len(old_names) != len(new_names):
@@ -322,13 +323,15 @@ def generate_names(digits_start, old_names, out_string, in_regex,
 		else:
 			letters_start=""
 		#create formatting template of length `digits`:
-		formatting_string = "%0"+str(digits)+"d"
-		padded_digits = formatting_string % digits_start
+		if digits_start and digits:
+			formatting_string = "%0"+str(digits)+"d"
+			padded_digits = formatting_string % digits_start
+			substitutions['DIGITS'] = padded_digits
+			digits_start += 1
 		#Source variables from source file name:
 		substitutions = re.match(in_regex, os.path.basename(old_names[count]))
 		substitutions = substitutions.groupdict()
 		substitutions['LETTERS'] = letters_start
-		substitutions['DIGITS'] = padded_digits
 		#Format the name:
 		myformatter = CaseFormatter()
 		new_name = myformatter.format(out_string, **substitutions)
@@ -336,7 +339,6 @@ def generate_names(digits_start, old_names, out_string, in_regex,
 		new_name = os.path.join(out_root, new_name)
 		new_names.append(new_name)
 		count += 1
-		digits_start += 1
 	return new_names
 
 def iterative_rename(digits_start, old_names,
