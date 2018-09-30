@@ -309,7 +309,10 @@ def generate_names(digits_start, old_names, out_string, in_regex,
 		#make sure files with the same path but different extensions keep the same name:
 		#for lists of length 1, the last element is the only element, thus we require the list to be of length 2 at least
 		if os.path.splitext(old_names[count])[0] == os.path.splitext(old_names[count-1])[0] and len(old_names) >= 2:
-			digits_start -= 1
+			try:
+				digits_start -= 1
+			except TypeError:
+				pass
 		if digits_start == 10**digits:
 			digits_start = 0
 			if letters_start_index or letters_start_index == 0:

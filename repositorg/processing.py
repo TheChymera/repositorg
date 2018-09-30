@@ -81,6 +81,7 @@ def imgproc(source,
 	parameters='',
 	unstack=False,
 	unstack_string='scene',
+	out_format="",
 	):
 	"""Process image files in a given directory (using ImageMagick).
 
@@ -130,6 +131,9 @@ def imgproc(source,
 		if unstack:
 			out_path, ext = os.path.splitext(in_path)
 			out_path += '_'+unstack_string+'%d'+ext
+		elif out_format:
+			out_path, ext = os.path.splitext(in_path)
+			out_path += '.'+out_format
 		else:
 			out_path = in_path
 		safe_in_path = '"'+in_path+'"'
