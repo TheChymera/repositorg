@@ -249,7 +249,7 @@ def reposit(in_root, out_root,
 	if len(out_files_list) == 0:
 		old_names = in_files_list
 		if not numbering_start:
-			numbering_start= 0
+			numbering_start = 0
 		if not letters_start_index:
 			letters_start_index = 0
 	else:
@@ -324,15 +324,15 @@ def generate_names(digits_start, old_names, out_string, in_regex,
 				letters_start = string.ascii_lowercase[letters_start_index]
 		else:
 			letters_start=""
+		#Source variables from source file name:
+		substitutions = re.match(in_regex, os.path.basename(old_names[count]))
+		substitutions = substitutions.groupdict()
 		#create formatting template of length `digits`:
 		if digits_start and digits:
 			formatting_string = "%0"+str(digits)+"d"
 			padded_digits = formatting_string % digits_start
 			substitutions['DIGITS'] = padded_digits
 			digits_start += 1
-		#Source variables from source file name:
-		substitutions = re.match(in_regex, os.path.basename(old_names[count]))
-		substitutions = substitutions.groupdict()
 		substitutions['LETTERS'] = letters_start
 		#Format the name:
 		myformatter = CaseFormatter()
