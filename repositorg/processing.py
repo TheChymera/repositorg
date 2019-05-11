@@ -33,7 +33,7 @@ def audioproc(source,
 
 	Notes
 	-----
-	If the CLI binding complains of too few arguments, the mandatory positional argument "source" might be caugt by one of the others.
+	If the CLI binding complains about too few arguments, the mandatory positional argument "source" might be caugt by one of the others.
 	Try separating it with " -- " from the rest of the call.
 	"""
 
