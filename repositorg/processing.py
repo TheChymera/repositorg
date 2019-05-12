@@ -213,7 +213,8 @@ def tag(source,
 				date_string = filename
 			date = dt.datetime.strptime(date_string, date_format)
 
-			tags['TDRC'] = TDRC(text=date.isoformat())
+			if not tags['TDRC']:
+				tags['TDRC'] = TDRC(text=date.isoformat())
 			if author:
 				tags['TPE1'] = TPE1(text=author)
 			tags.save(in_path)
