@@ -155,6 +155,7 @@ def tag(source,
 	author='',
 	extensions=[],
 	regex_datematch='',
+	date_format='',
 	):
 	"""Process video files in a given directory.
 
@@ -163,7 +164,7 @@ def tag(source,
 	source : list
 		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
 	author : str, optional
-		Author name to write in the ID3v2.4 header ("TPE1" tag)
+		uthor name to write in the ID3v2.4 header ("TPE1" tag)
 	extensions: list, optional
 		Consider only files with these extensions.
 	regex_datematch: string, optional
@@ -196,28 +197,26 @@ def tag(source,
 		in_paths = [in_path for in_path in in_paths if os.path.splitext(in_path)[1] in extensions]
 
 	for in_path in in_paths:
-		print(in_path)
-		# create ID3 tag if not present
-		try:
-		    tags = ID3(in_path)
-		except ID3NoHeaderError:
-		    tags = ID3()
+		if date_format:
+			# create ID3 tag if not present
+			try:
+			    tags = ID3(in_path)
+			except ID3NoHeaderError:
+			    tags = ID3()
 
-		filename = os.path.basename(in_path)
-		filename = os.path.splitext(filename)[0]
-		if regex_datematch:
-			m = re.match(regex_datematch, filename)
-			date_string = m.groupdict()['match']
-		else:
-			date_string = filename
-		print(date_string)
-		date_string = date_string.strip('Audio recording ')
-		date = dt.datetime.strptime(date_string,'%Y-%m-%d %H-%M-%S')
+			filename = os.path.basename(in_path)
+			filename = os.path.splitext(filename)[0]
+			if regex_datematch:
+				m = re.match(regex_datematch, filename)
+				date_string = m.groupdict()['match']
+			else:
+				date_string = filename
+			date = dt.datetime.strptime(date_string, date_format)
 
-		tags['TDRC'] = TDRC(text=date.isoformat())
-		if author:
-			tags['TPE1'] = TPE1(text=author)
-		tags.save(in_path)
+			tags['TDRC'] = TDRC(text=date.isoformat())
+			if author:
+				tags['TPE1'] = TPE1(text=author)
+			tags.save(in_path)
 
 @argh.arg('source', nargs='+', type=str)
 @argh.arg('-e', '--extensions', nargs='+', type=str)
