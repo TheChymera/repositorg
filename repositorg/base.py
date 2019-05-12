@@ -328,7 +328,7 @@ def generate_names(digits_start, old_names, out_string, in_regex,
 		substitutions = re.match(in_regex, os.path.basename(old_names[count]))
 		substitutions = substitutions.groupdict()
 		#create formatting template of length `digits`:
-		if digits_start and digits:
+		if digits_start and digits or digits_start == 0 and digits:
 			formatting_string = "%0"+str(digits)+"d"
 			padded_digits = formatting_string % digits_start
 			substitutions['DIGITS'] = padded_digits
