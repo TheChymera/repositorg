@@ -14,7 +14,7 @@ from mutagen.id3 import ID3, TIT2, TALB, TPE1, TPE2, COMM, USLT, TCOM, TCON, TDR
 def audioproc(source,
 	extensions=[],
 	output_ext="mp3",
-	parameters="-codec:a libmp3lame -qscale:a 2",
+	parameters="-codec:a libmp3lame -qscale:a 2 -map_metadata 0",
 	max_processes =4,
 	):
 	"""Process audio files in a given directory.
@@ -197,13 +197,14 @@ def tag(source,
 		in_paths = [in_path for in_path in in_paths if os.path.splitext(in_path)[1] in extensions]
 
 	for in_path in in_paths:
+		# create ID3 tag if not present
+		try:
+		    tags = ID3(in_path)
+		except ID3NoHeaderError:
+		    tags = ID3()
+		if author:
+			tags['TPE1'] = TPE1(text=author)
 		if date_format:
-			# create ID3 tag if not present
-			try:
-			    tags = ID3(in_path)
-			except ID3NoHeaderError:
-			    tags = ID3()
-
 			filename = os.path.basename(in_path)
 			filename = os.path.splitext(filename)[0]
 			if regex_datematch:
@@ -213,10 +214,7 @@ def tag(source,
 				date_string = filename
 			date = dt.datetime.strptime(date_string, date_format)
 
-			if not tags['TDRC']:
-				tags['TDRC'] = TDRC(text=date.isoformat())
-			if author:
-				tags['TPE1'] = TPE1(text=author)
+			tags['TDRC'] = TDRC(text=date.isoformat())
 			tags.save(in_path)
 
 @argh.arg('source', nargs='+', type=str)
