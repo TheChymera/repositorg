@@ -17,8 +17,9 @@ KEYWORDS=""
 IUSE=""
 
 DEPEND="
-    >=dev-python/argh-0.26.2
-    media-libs/mutagen
+	>=dev-python/argh-0.26.2
+	media-libs/mutagen
+	dev-python/regex[${PYTHON_USEDEP}]
 "
 RDEPEND="${DEPEND}"
 
