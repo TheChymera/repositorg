@@ -243,7 +243,7 @@ def reposit(in_root, out_root,
 			if re.match(in_regex, name):
 				in_files_list.append(os.path.join(root, name))
 	if in_files_list == []:
-		print('There are no files matching {} in the {} directory which we can reposit.'.format(in_regex,in_root))
+		print('There are no files matching "{}" in the "{}" directory which we can reposit.'.format(in_regex,in_root))
 		return
 
 	in_files_list = sorted(in_files_list)
