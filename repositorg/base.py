@@ -242,6 +242,9 @@ def reposit(in_root, out_root,
 		for name in files:
 			if re.match(in_regex, name):
 				in_files_list.append(os.path.join(root, name))
+	if in_files_list = []:
+		print('There are no files matching {} in the {} directory which we can reposit.'.format(in_regex,in_root))
+		return
 
 	in_files_list = sorted(in_files_list)
 	in_files_list = [os.path.abspath(os.path.expanduser(i)) for i in in_files_list]
@@ -254,11 +257,11 @@ def reposit(in_root, out_root,
 			letters_start_index = 0
 	else:
 		lastfile, lastfile_pair = pair_lastfile(out_files_list, in_files_list)
-		# If there is no pair for the last existing out_file check whether in_files are in fact new or historical copy.
 		if not lastfile_pair:
+			print("  Checking whether in_files are in fact new or historical copy.")
 			_, out_file_pair_for_last_in_file = pair_lastfile(in_files_list, out_files_list)
 			if out_file_pair_for_last_in_file != None:
-				print("The source file list appears to be a subset of the already existing destination file list. Not proceeding.")
+				print("    The source file list appears to be a subset of the already existing destination file list. Not proceeding.")
 				return
 		if not numbering_start and '{DIGITS}' in out_string:
 			numbering_start = int(os.path.splitext(lastfile)[0][-digits:])
