@@ -29,7 +29,11 @@ src_unpack() {
 
 python_install() {
 	distutils-r1_python_install
-	systemd_newunit "${FILESDIR}/${PN}_uuid.service" "${PN}_uuid@.service"
+	if use systemd; then
+	    systemd_newunit "${FILESDIR}/${PN}_uuid.service" "${PN}_uuid@.service"
+	else
+	    newinitd "${FILESDIR}/${PN}_uuid.initd" "${PN}_uuid"
+	fi
 	dobin repositorg_uuid
 }
 
