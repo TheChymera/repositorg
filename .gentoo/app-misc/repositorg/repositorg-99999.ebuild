@@ -14,7 +14,7 @@ SRC_URI=""
 LICENSE="GPLv3"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="systemd"
 
 DEPEND="
 	>=dev-python/argh-0.26.2[${PYTHON_USEDEP}]
