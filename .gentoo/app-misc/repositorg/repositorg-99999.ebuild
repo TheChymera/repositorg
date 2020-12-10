@@ -1,9 +1,9 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
 
-PYTHON_COMPAT=(python3_{6,7,8})
+PYTHON_COMPAT=(python3_{6..9})
 
 inherit distutils-r1 systemd
 
@@ -11,15 +11,16 @@ DESCRIPTION="Automatically reposit, organize, rename, and process large collecti
 HOMEPAGE="https://github.com/TheChymera/repositorg"
 SRC_URI=""
 
-LICENSE="GPLv3"
+LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS=""
 IUSE="systemd"
 
 DEPEND="
 	>=dev-python/argh-0.26.2[${PYTHON_USEDEP}]
-	media-libs/mutagen
 	dev-python/regex[${PYTHON_USEDEP}]
+	media-libs/mutagen
+	systemd? ( sys-apps/systemd )
 "
 RDEPEND="${DEPEND}"
 
@@ -30,9 +31,9 @@ src_unpack() {
 python_install() {
 	distutils-r1_python_install
 	if use systemd; then
-	    systemd_newunit "${FILESDIR}/${PN}_uuid.service" "${PN}_uuid@.service"
+		systemd_newunit "${FILESDIR}/${PN}_uuid.service" "${PN}_uuid@.service"
 	else
-	    newinitd "${FILESDIR}/${PN}_uuid.initd" "${PN}_uuid"
+		newinitd "${FILESDIR}/${PN}_uuid.initd" "${PN}_uuid"
 	fi
 	dobin repositorg_uuid
 }
@@ -42,4 +43,11 @@ src_test() {
 	for i in *.sh; do
 		./"$i" || die "Test $i failed"
 	done
+}
+
+pkg_postinst() {
+	if use !systemd ; then
+		elog "To be able to run repositorg_uuid as your user (recommended), make a copy of the init script:"
+		elog "	cp /etc/init.d/repositorg_uuid /etc/init.d/repositorg_uuid.<YOUR_USER_NAME>"
+	fi
 }
