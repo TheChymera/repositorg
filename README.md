@@ -1,5 +1,5 @@
 # Repositorg
-[![Build Status](https://travis-ci.org/TheChymera/repositorg.svg?branch=master)](https://travis-ci.org/TheChymera/repositorg)
+[![Build Status](https://travis-ci.com/TheChymera/repositorg.svg?branch=master)](https://travis-ci.com/TheChymera/repositorg)
 
 Repositorg is Python module that lets you automatically reposit, organize, rename, and process large collections of files (e.g. pictures, or video).
 
