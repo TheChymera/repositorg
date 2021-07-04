@@ -28,7 +28,7 @@ pip install [--user] -e /your/local/repositorg/path
 
 ## Usage
 Functions from the `repositorg` module can be called from within the module directoy via Python, e.g.  `python -c 'import base; base.reposit()'`.
-Additionally we provide the a base command-line function, `repositorg` via which you can call our most frequently used functions.
+Additionally we provide a base command-line function, `repositorg` via which you can call our most frequently used functions.
 
 #### repositorg
 ```
