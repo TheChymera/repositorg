@@ -197,6 +197,9 @@ def reposit(in_root, out_root,
 
 	Arguments
 	---------
+	in_regex : string
+		A regex string used to parse input file names, this can include a capture group called `number`, which will be used to sort files if the sorting of input file names is not desired (i.e. due to nuisance prefixes).
+		Example: `"^(?P<prefix>_DSC|DSC_)(?P<number>[0-9]*)\.(?P<extension>NEF|JPG)$"`.
 	destination_root : string
 		Reposit the files into this directory.
 	source : list
@@ -241,12 +244,18 @@ def reposit(in_root, out_root,
 	for root, dirs, files in os.walk(in_root):
 		for name in files:
 			if re.match(in_regex, name):
-				in_files_list.append(os.path.join(root, name))
+				entry = re.match(in_regex, name).groupdict()
+				entry["path"] = os.path.join(root, name)
+				in_files_list.append(entry)
 	if in_files_list == []:
 		print('There are no files matching "{}" in the "{}" directory which we can reposit.'.format(in_regex,in_root))
 		return
 
-	in_files_list = sorted(in_files_list)
+	try:
+		in_files_list = sorted(in_files_list, key=lambda el: el["number"])
+	except KeyError:
+		in_files_list = sorted(in_files_list, key=lambda el: el["path"])
+	in_files_list = [i["path"] for i in in_files_list]
 	in_files_list = [os.path.abspath(os.path.expanduser(i)) for i in in_files_list]
 
 	if len(out_files_list) == 0:
