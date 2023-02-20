@@ -216,6 +216,7 @@ def reposit(in_root, out_root,
 	letters_start_index : int
 		Start letter incremention in file name at this letter (a=0, b=1, etc.)
 	numbering_start : int
+
 		Start number incremention in file name at this integer.
 	parent_prefix : bool
 		Add the name of the root dir as a prefix to all new file names.
@@ -273,9 +274,14 @@ def reposit(in_root, out_root,
 				print("    The source file list appears to be a subset of the already existing destination file list. Not proceeding.")
 				return
 		if not numbering_start and '{DIGITS}' in out_string:
-			numbering_start = int(os.path.splitext(lastfile)[0][-digits:])
-			# don't start numbering at the last digit, otherwise you would overwrite the file
-			numbering_start += 1
+			try:
+				numbering_start = int(os.path.splitext(lastfile)[0][-digits:])
+			except ValueError:
+				# it could be that the target dir does not contain files in the same pattern.
+				numbering_start = 0
+			else:
+				# don't start numbering at the last digit, otherwise you would overwrite the file
+				numbering_start += 1
 		if letters >= 1 and '{LETTERS}' in out_string and not letters_start_index:
 			letters_start = os.path.splitext(lastfile)[0][-(digits+letters):-digits]
 			try:
