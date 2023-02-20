@@ -32,7 +32,7 @@ Additionally we provide a base command-line function, `repositorg` via which you
 
 #### repositorg
 ```
-usage: repositorg [-h] {reposit,reposit_legacy,reformat,redundant,vidproc} ...
+usage: repositorg [-h] {reposit,reformat,redundant,vidproc} ...
 ```
 ## Triggers
 
@@ -92,18 +92,12 @@ If you wish your system to always be on the lookout for device insertion, add th
 ```
 repositorg reformat -l 0 -n 79 -p nd750_ a/*MOV
 
-repositorg reposit_legacy --letters 1 -p nd750_ -e NEF JPG -d 4 ~/Pictures/cameras/nd750/ /run/media/chymera/NIKON\ D750/DCIM/100ND750/
-
 repositorg vidproc -p "-crf 16 -c:a copy" nd750_a00{00,01,02,03,37,38,39,70,71}.MOV
 
 repositorg vidproc -p "-crf 16 -c:a copy -filter:v 'crop=1080:1080:420:0'" nd750_a00{80..84}.MOV
 
 repositorg vidproc -p "-crf 16 -c:a copy -filter:v 'crop=1280:1080:320:0'" nd750_a00{85,86}.MOV
-
-organamer_reposit . smb://192.168.65.219/Pryce_Labor/Christian/transit -u SAMBAuser%SAMBApassword -p "age_" -l 0 -e "jpg"
 ```
-
-The last call is to the legacy `organamer_reposit` function which we have stopped providing 19-08-2016.
 
 ### Workflows
 
