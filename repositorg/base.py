@@ -208,8 +208,6 @@ def reposit(in_root, out_root,
 		Create new file names with this many digits.
 	exclude: list
 		Exclude these file names from the repositing process.
-	extensions: list
-		Consider only files with these extensions.
 	letters : int
 		Prepend this many letters to the digits in the new file names.
 		The files are reposited in destination_root subdirectories specific for every letter.
