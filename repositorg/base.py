@@ -180,9 +180,9 @@ def reformat(source,
 @argh.arg('-n', '--numbering-start', type=int)
 @argh.arg('-l', '--letters-start-index', type=int)
 def reposit(in_root, out_root,
-	in_regex='.*',
+	in_regex='^.*\.(?P<extension>.*)$',
 	out_regex='.*',
-	out_string='{DIGITS}',
+	out_string='{DIGITS}.{extension}',
 	digits=4,
 	exclude=["Thumbs.db"],
 	letters=1,
@@ -218,8 +218,6 @@ def reposit(in_root, out_root,
 		Start number incremention in file name at this integer.
 	parent_prefix : bool
 		Add the name of the root dir as a prefix to all new file names.
-	prefix: string
-		Add this prefix to all new file names.
 	user_password: string
 		User and password for your remote file source (format: 'user%password')
 	no_ask: bool
