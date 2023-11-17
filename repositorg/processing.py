@@ -10,9 +10,7 @@ from mutagen.id3 import ID3NoHeaderError
 from mutagen.id3 import ID3, TIT2, TALB, TPE1, TPE2, COMM, USLT, TCOM, TCON, TDRC
 
 @argh.arg('source', nargs='+', type=str)
-@argh.arg('-e', '--extensions', nargs='+', type=str)
 def audioproc(source,
-	extensions=[],
 	output_ext="mp3",
 	parameters="-codec:a libmp3lame -qscale:a 2 -map_metadata 0",
 	max_processes =4,
@@ -23,8 +21,6 @@ def audioproc(source,
 	---------
 	source : list
 		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
-	extensions: list
-		Consider only files with these extensions.
 	output_ext : string
 		Create processed files with this extension.
 	parameters: string
@@ -39,10 +35,6 @@ def audioproc(source,
 	"""
 
 	#check if the extensions are formated correctly (leading period, as seen with `os.path.splitext()`):
-	if extensions:
-		for i in range(len(extensions)):
-			if extensions[i][0] != ".":
-				extensions[i] = "."+extensions[i]
 	if output_ext[0] != ".":
 		output_ext = "."+output_ext
 
@@ -53,9 +45,6 @@ def audioproc(source,
 		in_paths = [os.path.join(source,in_path) for in_path in in_paths]
 	else:
 		in_paths = [os.path.expanduser(in_path) for in_path in source]
-
-	if extensions:
-		in_paths = [in_path for in_path in in_paths if os.path.splitext(in_path)[1] in extensions]
 
 	paths_dict = {key:key for key in in_paths}
 	paths_dict.update((x, os.path.splitext(y)[0]+output_ext) for x,y in paths_dict.items())
@@ -75,9 +64,7 @@ def audioproc(source,
 		time.sleep(0.5)
 
 @argh.arg('source', nargs='+', type=str)
-@argh.arg('-e', '--extensions', nargs='+', type=str)
 def imgproc(source,
-	extensions=[],
 	max_processes=4,
 	parameters='',
 	unstack=False,
@@ -90,8 +77,6 @@ def imgproc(source,
 	---------
 	source : list
 		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
-	extensions: list, optional
-		Consider only files with these extensions.
 	max_processes: int, optional
 		Run up to this many processes at a time.
 	parameters: string, optional
@@ -108,12 +93,6 @@ def imgproc(source,
 	Try separating it with " -- " from the rest of the call.
 	"""
 
-	#check if the extensions are formated correctly (leading period, as seen with `os.path.splitext()`):
-	if extensions:
-		for i in range(len(extensions)):
-			if extensions[i][0] != ".":
-				extensions[i] = "."+extensions[i]
-
 	if len(source) == 1 and (source[0][-1] == '/' or source[0] =='.'):
 		source = source[0]
 		source = os.path.expanduser(source)
@@ -123,9 +102,6 @@ def imgproc(source,
 	else:
 		in_paths = [os.path.expanduser(in_path) for in_path in source]
 		predefined_list = False
-
-	if extensions:
-		in_paths = [in_path for in_path in in_paths if os.path.splitext(in_path)[1] in extensions]
 
 	processes = set()
 	for in_path in in_paths:
@@ -150,10 +126,8 @@ def imgproc(source,
 		time.sleep(0.5)
 
 @argh.arg('source', nargs='+', type=str)
-@argh.arg('-e', '--extensions', nargs='+', type=str)
 def tag(source,
 	author='',
-	extensions=[],
 	regex_datematch='',
 	date_format='',
 	):
@@ -165,8 +139,6 @@ def tag(source,
 		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
 	author : str, optional
 		uthor name to write in the ID3v2.4 header ("TPE1" tag)
-	extensions: list, optional
-		Consider only files with these extensions.
 	regex_datematch: string, optional
 		Regex string to match the file basename and extract a match group named "match".
 
@@ -181,11 +153,6 @@ def tag(source,
 	.. [ID3v2] https://hydrogenaud.io/index.php/topic,112375.0.html
 	"""
 
-	#check if the extensions are formated correctly (leading period, as seen with `os.path.splitext()`):
-	if extensions:
-		for i in range(len(extensions)):
-			if extensions[i][0] != ".":
-				extensions[i] = "."+extensions[i]
 	if len(source) == 1 and source[0][-1] == "/":
 		source = source[0]
 		source = os.path.expanduser(source)
@@ -193,8 +160,6 @@ def tag(source,
 		in_paths = [os.path.join(source,in_path) for in_path in in_paths]
 	else:
 		in_paths = [os.path.expanduser(in_path) for in_path in source]
-	if extensions:
-		in_paths = [in_path for in_path in in_paths if os.path.splitext(in_path)[1] in extensions]
 
 	for in_path in in_paths:
 		# create ID3 tag if not present
@@ -218,9 +183,7 @@ def tag(source,
 			tags.save(in_path)
 
 @argh.arg('source', nargs='+', type=str)
-@argh.arg('-e', '--extensions', nargs='+', type=str)
 def vidproc(source,
-	extensions=[],
 	output_ext="mkv",
 	parameters="-vf 'transpose=dir=clock, transpose=dir=clock, crop=1080:1080' -crf 16 -c:a copy",
 	max_processes=4,
@@ -231,8 +194,6 @@ def vidproc(source,
 	---------
 	source : list
 		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
-	extensions: list
-		Consider only files with these extensions.
 	output_ext : string
 		Create processed files with this extension.
 	parameters: string
@@ -246,11 +207,6 @@ def vidproc(source,
 	Try separating it with " -- " from the rest of the call.
 	"""
 
-	#check if the extensions are formated correctly (leading period, as seen with `os.path.splitext()`):
-	if extensions:
-		for i in range(len(extensions)):
-			if extensions[i][0] != ".":
-				extensions[i] = "."+extensions[i]
 	if output_ext[0] != ".":
 		output_ext = "."+output_ext
 
@@ -261,9 +217,6 @@ def vidproc(source,
 		in_paths = [os.path.join(source,in_path) for in_path in in_paths]
 	else:
 		in_paths = [os.path.expanduser(in_path) for in_path in source]
-
-	if extensions:
-		in_paths = [in_path for in_path in in_paths if os.path.splitext(in_path)[1] in extensions]
 
 	paths_dict = {key:key for key in in_paths}
 	paths_dict.update((x, os.path.splitext(y)[0]+output_ext) for x,y in paths_dict.items())

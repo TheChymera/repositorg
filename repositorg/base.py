@@ -109,16 +109,12 @@ def rename(root_dir,
 			os.rename(old_filenames[i], new_filenames[i])
 	return old_filenames, new_filenames
 
-@argh.arg('-d', '--digits')
-@argh.arg('-e', '--extensions', nargs='+', type=str)
 @argh.arg('-l', '--letters-start-index', type=int)
-@argh.arg('-n', '--numbering-start', type=int)
 @argh.arg('-p', '--prefix')
 @argh.arg('source', nargs='+', type=str)
 def reformat(source,
 	digits=4,
 	exclude=["Thumbs.db"],
-	extensions=[],
 	letters_start_index=None,
 	numbering_start=0,
 	prefix="",
@@ -130,17 +126,17 @@ def reformat(source,
 	---------
 	source : string
 		Reformat these files (or ONE directory, in which case all fies are reformatted).
-	digits : int
+	digits : int, optional
 		Create new file names with this many digits.
-	exclude: list
+	exclude: list, optional
 		Exclude these file names from the repositing process.
-	letters_start_index : int
+	letters_start_index : int, optional
 		Start letter incremention in file name at this letter (a=0, b=1, etc.)
-	numbering_start : int
+	numbering_start : int, optional
 		Start number incremention in file name at this integer.
-	prefix: string
+	prefix: string, optional
 		Add this prefix to all new file names.
-	prompt: bool
+	prompt: bool, optional
 		Ask for confirmation - setting to False is DANGEROUS!
 	"""
 
@@ -152,11 +148,7 @@ def reformat(source,
 		source_files = []
 		for root, dirs, files in os.walk(source):
 			for name in files:
-				if extensions:
-					if os.path.splitext(name)[1] in extensions:
-						source_files.append(os.path.join(root, name))
-				else:
-					source_files.append(os.path.join(root, name))
+				source_files.append(os.path.join(root, name))
 	else:
 		source_files = [os.path.expanduser(i) for i in source]
 
@@ -176,7 +168,6 @@ def reformat(source,
 					prompt_message="\nThe original file locations above will be DELETED after copying.\nReview the above operations list carefully and enter 'yes' to continue or 'no' to abort.",
 					)
 
-@argh.arg('-d', '--digits')
 @argh.arg('-n', '--numbering-start', type=int)
 @argh.arg('-l', '--letters-start-index', type=int)
 def reposit(in_root, out_root,
@@ -187,7 +178,7 @@ def reposit(in_root, out_root,
 	exclude=["Thumbs.db"],
 	letters=1,
 	letters_start_index=None,
-	numbering_start=None,
+	numbering_start=0,
 	parent_prefix=False,
 	prefix="",
 	no_ask=False,
@@ -202,25 +193,24 @@ def reposit(in_root, out_root,
 		Example: `"^(?P<prefix>_DSC|DSC_)(?P<number>[0-9]*)\.(?P<extension>NEF|JPG)$"`.
 	destination_root : string
 		Reposit the files into this directory.
-	source : list
+	source : list, optional
 		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
-	digits : int
+	digits : int, optional
 		Create new file names with this many digits.
-	exclude: list
+	exclude: list, optional
 		Exclude these file names from the repositing process.
-	letters : int
+	letters : int, optional
 		Prepend this many letters to the digits in the new file names.
 		The files are reposited in destination_root subdirectories specific for every letter.
-	letters_start_index : int
+	letters_start_index : int, optional
 		Start letter incremention in file name at this letter (a=0, b=1, etc.)
-	numbering_start : int
-
+	numbering_start : int, optional
 		Start number incremention in file name at this integer.
-	parent_prefix : bool
+	parent_prefix : bool, optional
 		Add the name of the root dir as a prefix to all new file names.
-	user_password: string
+	user_password: string, optional
 		User and password for your remote file source (format: 'user%password')
-	no_ask: bool
+	no_ask: bool, optional
 		Do not ask for confirmation - setting to True is DANGEROUS!
 
 	Notes
