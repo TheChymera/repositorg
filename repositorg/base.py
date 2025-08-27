@@ -193,7 +193,7 @@ def reposit(in_root, out_root,
 	---------
 	in_regex : string
 		A regex string used to parse input file names, this can include a capture group called `number`, which will be used to sort files if the sorting of input file names is not desired (i.e. due to nuisance prefixes).
-		Example: `"^(?P<prefix>_DSC|DSC_)(?P<number>[0-9]*)\\.(?P<extension>NEF|JPG)$"`.
+		Example: `'^(?P<prefix>_DSC|DSC_)(?P<number>[0-9]*)\\.(?P<extension>NEF|JPG)$'`.
 	destination_root : string
 		Reposit the files into this directory.
 	source : list, optional
@@ -212,7 +212,7 @@ def reposit(in_root, out_root,
 	parent_prefix : bool, optional
 		Add the name of the root dir as a prefix to all new file names.
 	user_password: string, optional
-		User and password for your remote file source (format: 'user%password')
+		User and password for your remote file source (format: 'user%%password')
 	no_ask: bool, optional
 		Do not ask for confirmation - setting to True is DANGEROUS!
 
