@@ -1,9 +1,9 @@
 from os import path, listdir
 
-DATA_DIR = path.abspath(path.join(path.dirname(path.realpath(__file__)),'../../example_data/'))
+DATA_DIR = path.abspath(path.join(path.dirname(path.realpath(__file__)),'../example_data/'))
 
 def test_pair_lastfile():
-	from ..base import pair_lastfile
+	from repositorg.base import pair_lastfile
 	source_files = [
 			'source_a/bla01.JPG','source_a/bla01.NEF',
 			'source_a/bla02.JPG','source_a/bla02.NEF',
@@ -21,7 +21,7 @@ def test_pair_lastfile():
 	assert expected_pair == pair
 
 def test_reposit_default_args(tmp_path):
-	from ..base import reposit
+	from repositorg.base import reposit
 	tmp_path = str(tmp_path)
 	in_dir = path.join(DATA_DIR, "source_a")
 	reposit(in_dir, tmp_path, no_ask=True)
