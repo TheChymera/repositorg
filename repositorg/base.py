@@ -174,7 +174,7 @@ def reformat(source,
 @argh.arg('-n', '--numbering-start', type=int)
 @argh.arg('-l', '--letters-start-index', type=int)
 def reposit(in_root, out_root,
-	in_regex='^.*\.(?P<extension>.*)$',
+	in_regex=r'^.*\.(?P<extension>.*)$',
 	out_regex='.*',
 	out_string='{DIGITS}.{extension}',
 	digits=4,
@@ -193,7 +193,7 @@ def reposit(in_root, out_root,
 	---------
 	in_regex : string
 		A regex string used to parse input file names, this can include a capture group called `number`, which will be used to sort files if the sorting of input file names is not desired (i.e. due to nuisance prefixes).
-		Example: `"^(?P<prefix>_DSC|DSC_)(?P<number>[0-9]*)\.(?P<extension>NEF|JPG)$"`.
+		Example: `"^(?P<prefix>_DSC|DSC_)(?P<number>[0-9]*)\\.(?P<extension>NEF|JPG)$"`.
 	destination_root : string
 		Reposit the files into this directory.
 	source : list, optional
