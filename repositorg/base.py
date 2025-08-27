@@ -3,7 +3,7 @@ from __future__ import division
 __author__ = 'Horea Christian'
 import argh
 import os
-from distutils import dir_util
+import shutil
 import string
 import re
 import warnings
@@ -43,8 +43,11 @@ def fetch(in_base, in_id,
 
 	if not os.path.isdir(in_path):
 		return False
-	dir_util.copy_tree(in_path, out_path,
-		preserve_mode=0
+	# copy_function specification (default being shutil.copy2) may not be needed.
+	# This is just to make sure that only files (no metadata and perms) are copied.
+	shutil.copytree(in_path, out_path,
+		dirs_exist_ok=True,
+		copy_function=shutil.copy,
 		)
 
 def rename(root_dir,
