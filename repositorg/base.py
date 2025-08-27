@@ -125,7 +125,7 @@ def reformat(source,
 	):
 	"""Reformat file names in given directory.
 
-	Arguments
+	Parameters
 	---------
 	source : string
 		Reformat these files (or ONE directory, in which case all fies are reformatted).
@@ -189,7 +189,7 @@ def reposit(in_root, out_root,
 	):
 	"""Repositorg's core repositing function
 
-	Arguments
+	Parameters
 	---------
 	in_regex : string
 		A regex string used to parse input file names, this can include a capture group called `number`, which will be used to sort files if the sorting of input file names is not desired (i.e. due to nuisance prefixes).

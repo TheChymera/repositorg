@@ -17,7 +17,7 @@ def audioproc(source,
 	):
 	"""Process audio files in a given directory.
 
-	Arguments
+	Parameters
 	---------
 	source : list
 		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
@@ -73,7 +73,7 @@ def imgproc(source,
 	):
 	"""Process image files in a given directory (using ImageMagick).
 
-	Arguments
+	Parameters
 	---------
 	source : list
 		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
@@ -133,7 +133,7 @@ def tag(source,
 	):
 	"""Process video files in a given directory.
 
-	Arguments
+	Parameters
 	---------
 	source : list
 		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
@@ -190,7 +190,7 @@ def vidproc(source,
 	):
 	"""Process video files in a given directory.
 
-	Arguments
+	Parameters
 	---------
 	source : list
 		Reposit the files from this directory. Alternatively can contain a list of files to reposit.
