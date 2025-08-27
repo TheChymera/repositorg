@@ -13,8 +13,8 @@ command_user="${RC_SVCNAME#*.}"
 output_log="/var/log/${RC_SVCNAME}.log"
 
 start_pre() {
-        #  (Commands necessary to prepare to start the service)
-        # Ensure that our dirs are correct
-        checkpath --file --owner ${command_user}:${command_user} --mode 775 \
-                "/var/log/${RC_SVCNAME}.log"
+	# (Commands necessary to prepare to start the service)
+	# Ensure that our dirs are correct
+	checkpath --file --owner ${command_user}:${command_user} --mode 775 \
+		"/var/log/${RC_SVCNAME}.log"
 }
