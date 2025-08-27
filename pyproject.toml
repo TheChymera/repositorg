@@ -1,3 +1,28 @@
 [build-system]
-requires = ["setuptools"]
-build-backend = 'setuptools.build_meta'
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "repositorg"
+version = "0.1.0"
+description = "Your package description here"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+	{ name = "Horea Christian", email = "chr@chymera.eu" }
+]
+requires-python = ">=3.9"
+
+dependencies = [
+	"argh",
+	"regex",
+	"mutagen",
+]
+
+[project.optional-dependencies]
+dev = [
+	"pytest",
+]
+
+[project.scripts]
+repositorg = "repositorg.cli:main"
