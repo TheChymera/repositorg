@@ -79,7 +79,7 @@ TARGET                            UUID
 
 After having determined the UUID, setting your workflow up to automatically execute is as simple as creating a new executable file under `~/.repositorg/sources/<UUID>.sh` (as seen here).
 To test the workflow, you can start the UUID trigger script (run `.repositorg/uuid_trigger.sh`), and (re)insert your medium.
-If you wish your system to always be on the lookout for device insertion, add the following line to your user crontab (start editing the crontab by running `crontab -e`):
+If you wish your system to always be on the lookout for device insertion, you can use the included [OpenRC](.gentoo/app-misc/repositorg/files/repositorg_uuid.initd) or [systemd](.gentoo/app-misc/repositorg/files/repositorg_uuid.service) service files, or add the following line to your user crontab (start editing the crontab by running `crontab -e`):
 
 ```
 @reboot . /etc/profile ; ~/.repositorg/UUID_trigger.sh
