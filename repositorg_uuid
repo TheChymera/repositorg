@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
-findmnt -o action,target,uuid -r -n --poll |
-	while read -r eaction etarget euuid; do
-		# findmnt returns reformatted whitespace	
-		etarget=${etarget/\\x20/ }
-		if [[ "$eaction" == "mount" ]]; then
-			~/.repositorg/sources/UUIDs/${euuid}.sh "${etarget}" "${euuid}"
-		fi
-	done
-
+# Using json because normal findmnt output is broken:
+# https://github.com/util-linux/util-linux/issues/3711
+findmnt -o action,target,uuid -n --poll=mount --json |
+jq -r --unbuffered '[ .action, .target, .uuid ] | @tsv' |
+while IFS=$'\t' read -r action target uuid; do
+        uuidscript="${HOME}/.repositorg/sources/UUIDs/${uuid}.sh"
+        if [ -f $uuidscript ]; then
+                # Decode escape sequences in target
+                printf -v target %b "$target"
+                echo "Running ${uuidscript} on ${target}."
+                ${uuidscript} "${target}" "${uuid}"
+        fi
+done
