@@ -218,7 +218,7 @@ def reposit(in_root, out_root,
 
 	Notes
 	-----
-	Currently breaks for letters > 1 because the string.lowercase.index() function only takes one argument.
+	Currently breaks for letters > 1 because the string.ascii_lowercase.index() function only takes one argument.
 	"""
 
 	out_root = os.path.abspath(os.path.expanduser(out_root))
@@ -273,10 +273,7 @@ def reposit(in_root, out_root,
 				numbering_start += 1
 		if letters >= 1 and '{LETTERS}' in out_string and not letters_start_index:
 			letters_start = os.path.splitext(lastfile)[0][-(digits+letters):-digits]
-			try:
-				letters_start_index = string.lowercase.index(letters_start)
-			except AttributeError:
-				letters_start_index = string.ascii_lowercase.index(letters_start)
+			letters_start_index = string.ascii_lowercase.index(letters_start)
 		else:
 			letters_start_index = None
 
@@ -325,10 +322,7 @@ def generate_names(digits_start, old_names, out_string, in_regex,
 			if letters_start_index or letters_start_index == 0:
 				letters_start_index += 1
 		if letters_start_index or letters_start_index == 0:
-			try:
-				letters_start = string.lowercase[letters_start_index]
-			except AttributeError:
-				letters_start = string.ascii_lowercase[letters_start_index]
+			letters_start = string.ascii_lowercase[letters_start_index]
 		else:
 			letters_start=""
 		#Source variables from source file name:
@@ -368,10 +362,7 @@ def iterative_rename(digits_start, old_names,
 			if letters_start_index or letters_start_index == 0:
 				letters_start_index += 1
 		if letters_start_index or letters_start_index == 0:
-			try:
-				letters_start = string.lowercase[letters_start_index]
-			except AttributeError:
-				letters_start = string.ascii_lowercase[letters_start_index]
+			letters_start = string.ascii_lowercase[letters_start_index]
 		else:
 			letters_start=""
 		#create formatting template of length `digits`:
