@@ -312,7 +312,7 @@ def generate_names(digits_start, old_names, out_string, in_regex,
 	):
 	count=0
 	new_names=[]
-	while count <= len(old_names)-1:
+	for count, name in enumerate(old_names):
 		#make sure files with the same path but different extensions keep the same name:
 		#for lists of length 1, the last element is the only element, thus we require the list to be of length 2 at least
 		if os.path.splitext(old_names[count])[0] == os.path.splitext(old_names[count-1])[0] and len(old_names) >= 2:
@@ -347,7 +347,6 @@ def generate_names(digits_start, old_names, out_string, in_regex,
 		#concatenate the path:
 		new_name = os.path.join(out_root, new_name)
 		new_names.append(new_name)
-		count += 1
 	return new_names
 
 def iterative_rename(digits_start, old_names,
