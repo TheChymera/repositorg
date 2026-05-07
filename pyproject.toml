@@ -26,3 +26,7 @@ dev = [
 
 [project.scripts]
 repositorg = "repositorg.cli:main"
+
+# make sure the testpath is under tests
+[tool.pytest.ini_options]
+testpaths = ["tests"]

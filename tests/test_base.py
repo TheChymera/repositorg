@@ -1,8 +1,8 @@
 from os import path, listdir
 
-DATA_DIR = path.abspath(path.join(path.dirname(path.realpath(__file__)),'../example_data/'))
+#DATA_DIR = path.abspath(path.join(path.dirname(path.realpath(__file__)),'../example_data/'))
 
-def test_pair_lastfile():
+def test_pair_lastfile(example_data):
 	from repositorg.base import pair_lastfile
 	source_files = [
 			'source_a/bla01.JPG','source_a/bla01.NEF',
@@ -12,18 +12,18 @@ def test_pair_lastfile():
 	destination_files = ['destination/bar002.JPG','destination/bar002.NEF']
 	expected_pair = ['destination/bar002.NEF', 'source_a/bla01.NEF']
 
-	destination_files = [path.join(DATA_DIR,i) for i in destination_files]
-	source_files = [path.join(DATA_DIR,i) for i in source_files]
-	expected_pair = [path.join(DATA_DIR,i) for i in expected_pair]
+	destination_files = [path.join(example_data,i) for i in destination_files]
+	source_files = [path.join(example_data,i) for i in source_files]
+	expected_pair = [path.join(example_data,i) for i in expected_pair]
 
 	pair = pair_lastfile(destination_files,source_files)
 
 	assert expected_pair == pair
 
-def test_reposit_default_args(tmp_path):
+def test_reposit_default_args(tmp_path, example_data):
 	from repositorg.base import reposit
 	tmp_path = str(tmp_path)
-	in_dir = path.join(DATA_DIR, "source_a")
+	in_dir = path.join(example_data, "source_a")
 	reposit(in_dir, tmp_path, no_ask=True)
 	expected_files = (
 		"0000.JPG",
