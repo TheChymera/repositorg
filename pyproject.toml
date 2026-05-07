@@ -4,29 +4,43 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "repositorg"
-version = "0.1.0"
-description = "Your package description here"
+dynamic = ["version"]
+description = "Automatically reposit, organize, rename, and process large collections of files."
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
-	{ name = "Horea Christian", email = "chr@chymera.eu" }
+    { name = "Horea Christian", email = "chr@chymera.eu" }
 ]
-requires-python = ">=3.9"
-
+requires-python = ">=3.7"
 dependencies = [
-	"argh",
-	"regex",
-	"mutagen",
+    "argh",
+    "regex",
+    "mutagen",
 ]
+classifiers = [
+    "Environment :: Console",
+    "Programming Language :: Python",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+]
+
+[tool.setuptools_scm]
+fallback_version = "0.0.0"
+
+[project.urls]
+"Source Code" = "https://github.com/TheChymera/repositorg"
+Homepage = "https://github.com/TheChymera/repositorg"
 
 [project.optional-dependencies]
 dev = [
-	"pytest",
+    "pytest",
+    "setuptools-scm",
 ]
 
 [project.scripts]
 repositorg = "repositorg.cli:main"
 
-# make sure the testpath is under tests
+[tool.setuptools.packages.find]
+include = ["repositorg*"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
